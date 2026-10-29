@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Renders</title>
+<style>
+:root { --bg: #f3f1ec; --ink: #2a2522; --muted: #6f665e; --accent: #8a5233; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #1c1916; --ink: #eee8df; --muted: #a89d91; --accent: #c98a5e; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #1c1916; --ink: #eee8df; --muted: #a89d91; --accent: #c98a5e; color-scheme: dark; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; }
+main { max-width: 640px; margin: 0 auto; padding: 32px 16px; }
+p { color: var(--muted); }
+a { color: var(--accent); }
+code { font-size: 0.95em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Home Renders</h1>
+  <p>Your rooms are listed on <a href="houses/index.html">houses/index.html</a>.</p>
+  <p id="none" hidden>There isn't one yet. Start a room by saying <code>new room: &lt;house&gt;, &lt;room&gt;</code>
+    in Claude Code from this folder (see README.md and PROCESS.md).</p>
+</main>
+<script>
+// the home page itself lives in the private houses/ repo (houses/README.md); go there when it exists
+fetch("houses/index.html", { method: "HEAD" })
+  .then(r => r.ok ? location.replace("houses/index.html") : document.getElementById("none").hidden = false)
+  .catch(() => {});
+</script>
+</body>
+</html>

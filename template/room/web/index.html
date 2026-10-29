@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROOM NAME</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../../../../lib/web/walkthrough.css">
+</head>
+<body>
+<header>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="../../../../../index.html">All rooms</a><span>/</span><span>HOUSE</span><span>/</span><b>ROOM NAME</b>
+  </nav>
+  <div class="tabs" role="tablist">
+    <button id="tab-walk" role="tab" aria-selected="true" data-tab="walk">Walk through</button>
+    <button id="tab-renders" role="tab" aria-selected="false" data-tab="renders">Before / after</button>
+    <button id="tab-gallery" role="tab" aria-selected="false" data-tab="gallery">Renders</button>
+    <a href="plans.html">Plans</a>
+    <a href="selections.html">Selections</a>
+  </div>
+</header>
+
+<main>
+  <section id="walk">
+    <div id="stage">
+      <div id="loading">Loading the room…</div>
+      <div class="hint"><span id="hint">Drag to look around · tap the floor to walk there</span></div>
+      <div class="views" id="views"></div>
+      <div class="daynight stage-dn" role="group" aria-label="Time of day">
+        <button data-mode="day" aria-pressed="true">Day</button>
+        <button data-mode="night" aria-pressed="false">Evening</button>
+      </div>
+    </div>
+    <aside>
+      <!-- one .item per chosen product, from selections.md (swatch: a texture or a CSS color) -->
+      <div>
+        <p class="eyebrow">Selections</p>
+        <div class="items">
+          <div class="item"><div class="swatch" style="background:#e9e3d8"></div>
+            <div><b>Nothing chosen yet</b><span class="dims">see selections.md</span></div></div>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow">Layout</p>
+        <p style="margin:0;font-size:0.88rem">ROOM SIZE and where it came from (tape, plan, or photos).</p>
+      </div>
+      <div>
+        <p class="eyebrow">Placeholders to confirm</p>
+        <ul class="assume">
+          <li><span class="pill">guess</span><span>Every size marked ASSUMED in layout.py</span></li>
+        </ul>
+      </div>
+    </aside>
+  </section>
+
+  <section id="renders" hidden>
+    <div class="rhead">
+      <p class="rintro">Drag across a photo to compare the room today with the render from the same spot.</p>
+      <div class="daynight" role="group" aria-label="Time of day">
+        <button data-mode="day" aria-pressed="true">Day</button>
+        <button data-mode="night" aria-pressed="false">Evening</button>
+      </div>
+    </div>
+    <div class="rgrid" id="rgrid"></div>
+  </section>
+
+  <section id="gallery" hidden>
+    <div class="rhead">
+      <p class="rintro">The new design from every saved camera. Click a picture to see it larger.</p>
+      <div class="daynight" role="group" aria-label="Time of day">
+        <button data-mode="day" aria-pressed="true">Day</button>
+        <button data-mode="night" aria-pressed="false">Evening</button>
+      </div>
+    </div>
+    <div class="rgrid" id="mgrid"></div>
+  </section>
+</main>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script src="bundle.js"></script>   <!-- model + textures, so the page also opens straight from disk -->
+<script src="../../../../../lib/web/lightbox.js"></script>
+<script src="../../../../../lib/web/walkthrough.js"></script>   <!-- the shared viewer -->
+<script>
+Walkthrough.start({
+  views: [["photo1", "Photo 1"]],    // walk-through jump points: [camera, label]
+  pairs: [],                         // [camera, label, N]: renders/<day|night>/camera.jpg vs before/photoN.jpg
+  more: [],                          // [camera, label]: renders with no matching photo
+  start: "photo1",
+  // how the model's materials look here; uv.world is inches per texture repeat
+  materials: ({ THREE }) => [
+    { match: "floor", material: new THREE.MeshStandardMaterial({ color: 0x7a5a3d, roughness: 0.35 }), floor: true },
+  ],
+});
+</script>
+</body>
+</html>

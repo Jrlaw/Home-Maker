@@ -1,0 +1,43 @@
+/* Document pages (selections): the walkthrough's header and colors, a readable column below.
+   Loaded after walkthrough.css. */
+body.doc { overflow: auto; display: block; }
+body.doc main { display: block; }
+#doc {
+  max-width: 76ch; margin: 0 auto; padding-block: 24px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  overflow-wrap: anywhere;
+}
+#doc h1 { font-size: 1.7rem; margin: 0 0 8px; }
+#doc h2 {
+  font-family: var(--font-display); font-size: 1.2rem; margin: 40px 0 8px; padding-top: 16px;
+  border-top: 1px solid var(--line); scroll-margin-top: 12px;
+}
+#doc h3 { font-family: var(--font-display); font-size: 1rem; margin: 24px 0 6px; }
+#doc p, #doc li { line-height: 1.6; }
+#doc ul, #doc ol { padding-left: 1.3em; }
+#doc li { margin: 3px 0; }
+#doc a { color: var(--oak); }
+#doc code { font-family: var(--font-data); font-size: 0.82em; background: var(--chip); padding: 1px 5px; border-radius: 4px; }
+#doc hr { border: 0; border-top: 1px solid var(--line); margin: 32px 0; }
+#doc table { border-collapse: collapse; width: 100%; font-size: 0.9rem; display: block; overflow-x: auto; }
+#doc th, #doc td { border-bottom: 1px solid var(--line); padding: 6px 10px 6px 0; text-align: left; vertical-align: top; }
+#doc .status {
+  display: inline-block; background: var(--chip); border-radius: 999px; padding: 2px 12px; font-size: 0.85rem; margin: 2px 0 8px;
+}
+#doc img { max-width: 100%; border-radius: 6px; }
+
+/* Plans page: the top view with overlays, controls and lists beside it (below on phones) */
+.plans { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; max-width: 1240px; margin: 0 auto;
+  padding: 20px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); }
+#plan svg { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 6px; background: var(--chip); }
+.dim-label { font: 600 4.2px var(--font-body); }
+.light-label { font: 700 4.4px var(--font-body); fill: #2b2200; }
+.plans aside { width: auto; border: 0; padding: 0; background: none; overflow: visible; gap: 20px; }
+.plans label { display: flex; gap: 8px; align-items: center; font-weight: 500; cursor: pointer; }
+.plans ul { margin: 6px 0 0; padding-left: 1.1em; font-size: 0.88rem; display: grid; gap: 3px; }
+#legend { display: grid; gap: 4px; font-size: 0.85rem; margin-top: 6px; }
+#legend i { display: inline-block; width: 18px; height: 3px; margin-right: 8px; vertical-align: middle; border-radius: 2px; }
+@media (max-width: 860px) { .plans { grid-template-columns: 1fr; } }
+/* pictures at the top of a selection: a row of thumbnails, click to open full size */
+#doc p:has(> img) { display: flex; gap: 8px; flex-wrap: wrap; }
+#doc p > img { height: 150px; width: auto; max-width: 100%; object-fit: cover; border: 1px solid var(--line); background: var(--chip); }

@@ -1,0 +1,7 @@
+# each person's houses live in their own private repo cloned here (houses/README.md)
+/houses/*
+!/houses/README.md
+*.blend
+*.blend1
+__pycache__/
+.DS_Store

@@ -1,6 +1,6 @@
 ---
 name: room
-description: 3D room models for home remodels (Blender renders + browser walkthrough), one room at a time in any house. Use when the user wants to start a new room ("new room: ours, kitchen"), continue or update a modeled room, share photos/measurements/product links for a room, compare options (tile, paint, lights), or record a choice.
+description: 3D room models for home remodels (Blender renders + browser walkthrough), one room at a time in any house. Use when the user says "set me up" (first run), wants to start a new room ("new room: ours, kitchen"), continue or update a modeled room, share photos/measurements/product links for a room, compare options (tile, paint, lights), or record a choice.
 argument-hint: "[new <house> <room> | continue <room> | status]"
 ---
 
@@ -12,9 +12,19 @@ user's houses live in `houses/`, their own private repo, which this repo ignores
 it is → ideas and selections → standard renders and walkthrough → save and stop. Then read the
 room's `README.md` ("Current state" says where it stopped) and `selections.md`.
 
-If `houses/` doesn't exist yet, this is a first run: check that Blender is found (render the
-template room as in README.md, "Setup"; the output names the render device), then help the user
-create their private houses repo in `houses/` (`houses/README.md`).
+The user drives everything by talking; never hand them commands to run. Run renders, exports,
+the selections page and the local server (`lib/serve.sh`, http://127.0.0.1:8000) yourself.
+
+**First run ("set me up", or `houses/` doesn't exist):**
+1. Check Blender: copy `template/room/` to a temp folder inside `houses/_check/rooms/box`, run its
+   `./render.sh --cams photo1 --samples 16 --res 800 --out /tmp/home-render-check`, and report
+   the `RENDER DEVICE` line (none means CPU: say renders will be slow). If Blender isn't found,
+   say where to install it or set `BLENDER=/path/to/blender`. Delete `houses/_check` after.
+2. Create the private houses repo: `git init houses`, copy `template/home.html` to
+   `houses/index.html`, and write `houses/.gitignore` with: `*/rooms/*/renders/*.jpg`,
+   `*/rooms/*/web/bundle.js`, `*/rooms/*/web/.bake/`, `*.blend`, `*.blend1`, `__pycache__/`.
+   Offer to connect it to a private remote of their own.
+3. Ask for their first room ("new room: <house>, <room>").
 
 ## Commands
 

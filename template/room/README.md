@@ -17,7 +17,7 @@ What the project is (keeping the room as is, a refresh, or a full remodel) and w
 - `web/`: the walkthrough (`index.html`) and its exported model; `web/before/` holds the photos
   the renders are compared with.
 
-## Commands
+## Commands (Claude runs these)
 
 Quick preview (about 30 seconds on the GPU):
 

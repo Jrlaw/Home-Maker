@@ -20,6 +20,22 @@ the scripts yourself.
 4. Say **"new room: &lt;house&gt;, &lt;room&gt;"** (for example "new room: ours, kitchen"). Claude
    gives you a short list of photos to take and things to measure.
 
+## Viewing your rooms
+
+Everything you look at is a web page served from your own machine:
+**http://127.0.0.1:8000**. Ask Claude to "show me the walkthrough" and it starts the server
+and gives you the link. To start it yourself, run `lib/serve.sh` in this folder and leave it
+running.
+
+- **Home:** every house and room, each with its latest render.
+- **Walkthrough:** walk around the room in 3D. Switch day and evening, flip between designs,
+  look at the before photos, and fix a measurement (Claude re-exports the room for you).
+- **Plans:** a top-down view with every dimension and where it came from.
+- **Selections:** every product and idea for the room, chosen or not, with links and prices.
+
+The server only listens on this machine. You can also open a room's `web/index.html`
+straight from the folder, but correcting dimensions needs the server.
+
 ## Talking to it
 
 - **Photos, measurements, a floor plan:** drop them in. Claude models the room as it is today
@@ -31,9 +47,8 @@ the scripts yourself.
   options with the reason.
 - **"continue &lt;room&gt;":** where the room stopped and what's next.
 - **"status":** every room and its next step.
-- **"show me the walkthrough":** Claude starts the local viewer and gives you the link
-  (http://127.0.0.1:8000). There you can walk around in 3D, switch day and evening, compare
-  designs and fix a measurement.
+- **"show me the walkthrough":** Claude starts the viewer and gives you the link (see
+  above).
 
 ## How it works
 

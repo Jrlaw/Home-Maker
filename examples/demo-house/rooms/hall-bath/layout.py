@@ -65,3 +65,12 @@ MIRROR = dict(width=24, height=32, center=dimension("mirror_center", 58, "design
 NEW_TOILET = dict(depth=30.5, rim=16.5, tank_h=27.25, tank_w=17.625, tank_d=8.5, bowl_w=14.75,
                   bowl_len=17.5, wall_gap=1.25)
 NEW_TILE_TOP = dimension("new_tile_top", 54, "design", "new wainscot: Cloe 2.5x8 to 54\"")
+
+# --- Lights, fan and outlet (from the lighting designer's review, 2026-10-29; selections.md) ---
+# Halo HLB4LSFS5 4" canless wafers, set to 2700 K / 600 lm; the one over the tub is in the wet
+# zone (wet-listed). About 44" apart, 20"+ off the walls, none over the mirror.
+NEW_CANS = [(15, -42), (48, -30), (42, -74)]                 # DESIGN: tub, toilet, entry
+# Kichler 5337NIS 24" three-light bar, brushed nickel, glass down, centered over the mirror
+VANITY_LIGHT = dict(width=24, plate_h=4.75, ext=8, bottom=77)   # DESIGN: 3" above the mirror
+FAN = (15, -12)               # DESIGN: Panasonic WhisperCeiling DC FV-0511VQ1 over the tub (80 CFM)
+OUTLET_Y = -93.5              # DESIGN: GFCI at the backsplash's south end, the far side from the tub

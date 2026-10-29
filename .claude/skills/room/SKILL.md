@@ -35,6 +35,9 @@ the selections page and the local server (`lib/serve.sh`, http://127.0.0.1:8000)
 - **continue `<room>`:** read the room's README "Current state" and selections.md "Open
   decisions", say where it stopped in two or three lines, and offer the next step.
 - **status:** list the houses and rooms, each with its status line and next step.
+- **review `<room>` as `<trade>`** (or any plain request like "have a plumber look at the
+  toilet"): run the `trades` agent. **find `<thing>`** ("find me a vanity, warm modern, under
+  $800"): run the `designer` agent.
 
 ## Rules that matter most
 
@@ -52,5 +55,11 @@ the selections page and the local server (`lib/serve.sh`, http://127.0.0.1:8000)
   first render on a machine and give ETAs from it.
 - **Commits:** commit and push only when the user asks, with their own git identity. Room work
   goes in the `houses/` repo; toolkit changes (`lib/`, `template/`, docs) go in this repo.
+- **Experts:** the `trades` and `designer` agents (`.claude/agents/`) review the room or source
+  products, in the background. Offer one at the checkpoints in PROCESS.md ("Experts"), in one
+  line ("Want a lighting designer to look at this before we stop?"), and run it only on a yes
+  or when asked. Pass the room folder, the trade, and what the person wants. Present what comes
+  back briefly, adopt only what the person agrees to, and credit the review in `selections.md`.
 - **Stopping:** end every stop by updating the room README's "Current state" with a small,
-  concrete next step.
+  concrete next step. If the design changed this session and no trade has reviewed it, offer
+  one review first.

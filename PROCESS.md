@@ -82,6 +82,32 @@ After any change to `selections.md`, rebuild its web page:
 Never drop an option silently. Passed-on options stay in `selections.md` under "Considered"
 so the history is there.
 
+### Experts: trades reviews and the designer
+
+Two agents in `.claude/agents/` help here. They read and search, never edit; Claude decides
+with the person what to adopt, logs it in `selections.md` (crediting the review), and models it.
+
+- **`designer`** sources real products from the person's style, wants and budget, checked
+  against the room's dimensions. Use it when a selection is open or the person describes a look.
+- **`trades`** reviews the room as one trade (lighting designer, electrician, cabinet designer,
+  plumber, tile setter, general contractor, interior designer) and returns ranked fixes with
+  plan coordinates, products, and what to measure first.
+
+Start them in the background, telling each the room folder, the trade or what to source, and
+what the person wants. **Offer one** (a one-line question, never run unasked) at these points:
+
+1. After the as-is model checks out: a general contractor or interior designer, for what's
+   worth changing and what's risky.
+2. When a part of the design settles: the matching trade (cabinets → cabinet designer, a
+   vanity or toilet → plumber, tile → tile setter, lights → lighting designer or electrician).
+   A room with no planned lighting always gets the lighting offer.
+3. When a selection is still open, or the person describes a style: the designer.
+4. Before stopping a session in which the design changed: one review by the trade most
+   affected, unless it was already done for this version.
+
+Note each review in the room README's "Current state" (trade, date, adopted or not), so it
+isn't offered twice for the same design.
+
 ## 4. Standard renders and the walkthrough
 
 - `renders/latest/day/` and `renders/latest/night/`: the standard views of the current
@@ -103,8 +129,9 @@ so the history is there.
 
 ## 5. Save and stop
 
-1. Update the room's README "Current state": what's modeled, open questions, and the one next
-   step.
+1. Update the room's README "Current state": what's modeled, open questions, reviews done, and
+   the one next step. If the design changed this session and no trade has reviewed it, offer
+   one now (see "Experts" above).
 2. Commit, then push, but only when asked (approval is per request). Room work is committed
    in the `houses/` repo; changes to `lib/`, `template/` or these docs go in this repo.
 3. If there's a project tracker, update it with where things stopped and the next step.

@@ -57,14 +57,44 @@ straight from the folder, but correcting dimensions needs the server.
 - **"show me the walkthrough":** Claude starts the viewer and gives you the link (see
   above).
 
+## Experts on call
+
+Two helper agents ship with the project (`.claude/agents/`). Claude runs them in the
+background and comes back with what they found; they read and search, and never change the
+room themselves. You decide what to adopt, and Claude logs it in `selections.md` and models it.
+
+- **Trades** (`trades`): a tradesperson who reviews the room from their trade's point of view:
+  a lighting designer, electrician, cabinet designer, plumber, tile setter, general contractor
+  or interior designer. It looks at the model, the dimensions and the renders, and comes back
+  with fixes ranked must / should / nice to have (with exact positions), real products for
+  anything it suggests adding, and what to measure first.
+- **Designer** (`designer`): finds real products that suit your style, wants and budget, and
+  checks each one fits the space (width, door swings, clearances). Usually three picks: a best
+  match, a budget pick and a splurge, each with a link, price and spec sheet.
+
+**How to call them:** just ask, in plain words.
+
+- *"Have a lighting designer review the hall bath."* (The example's cans, vanity bar and fan
+  came from exactly this; see its `selections.md`.)
+- *"Spawn an agent who is a cabinet designer and have them review our renderings and cabinet
+  models for placement and usability in where they're located."*
+- *"Get the designer to find a vanity: warm wood, modern, under $800."*
+- *"Ask a plumber whether the toilet can move 6 inches."*
+
+**When Claude offers one:** at natural checkpoints, and you can say no. After the room as it
+is checks out against your photos (a contractor or designer, for what's worth changing); when
+a part of the design settles (the matching trade: cabinets → cabinet designer, lights →
+lighting designer); when a selection is still open (the designer); and once before a session
+stops, if the design changed.
+
+In Claude Code, `/agents` lists them, and you can name one directly: *"use the trades agent as
+an electrician on the kitchen."*
+
 ## Tips
 
-- **Ask for an expert review.** Have Claude spawn a sub-agent that plays a trade and critiques
-  the design, for example: *"Spawn an agent who is a cabinet designer and have them review our
-  renderings and cabinet models for placement and usability in where they're located."* A
-  lighting designer, electrician, tile setter or plumber catches different things: clearances,
-  door swings, where the light falls, outlet and code rules. Ask for one whenever a part of the
-  room gets settled, and log what comes back in `selections.md`.
+- **Ask for an expert review** whenever a part of the room settles (see "Experts on call"
+  above). Each trade catches different things: clearances, door swings, where the light falls,
+  outlets and code.
 - **Tape-measure what matters first.** A model built from photos is close but not exact. Before
   ordering anything, measure the sizes the design depends on (the walkthrough's Dimensions
   button shows which ones are guesses), type them into the walkthrough, and Claude rebuilds the room.
@@ -77,9 +107,8 @@ straight from the folder, but correcting dimensions needs the server.
 
 ## Ideas to build on
 
-- **Expert reviews as a standard step.** The trade reviews above have been useful enough to
-  write into `PROCESS.md`: a cabinet designer once the layout is set, a lighting designer
-  before the lights are picked, and a contractor's walk-through before anything is ordered.
+- **More trades.** The `trades` agent covers seven trades from one checklist; a trade used
+  often (say, kitchen cabinets) could get its own agent with a deeper checklist.
 - **A whole-house walkthrough** once two connected rooms are modeled (see `PROCESS.md`, Houses).
 
 ## How it works

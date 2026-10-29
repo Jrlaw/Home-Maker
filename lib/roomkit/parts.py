@@ -783,7 +783,7 @@ def oval_mirror(name, origin, rot_z, M):
     m.scale = (1, h / w, 1)
     m.data.polygons.foreach_set("use_smooth", [False] * len(m.data.polygons))   # flat glass, true reflection
     m["outline"] = "oval"     # the walkthrough draws its reflection as an oval, not a rectangle
-    b = cylinder(f"{name}_back", w / 2 - 1.5, 0.4, "mirror_back", (0, -0.2, M["center"]), rot=(math.pi / 2, 0, 0), segs=64, parent=root)
+    b = cylinder(f"{name}_mount", w / 2 - 1.5, 0.4, "mirror_back", (0, -0.2, M["center"]), rot=(math.pi / 2, 0, 0), segs=64, parent=root)
     b.scale = (1, (h - 3) / (w - 3), 1)
     return root
 

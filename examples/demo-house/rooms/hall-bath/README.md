@@ -6,7 +6,8 @@ The repo's worked example. A 1950s-style hall bath (green 4-1/4" tile, a wall-hu
 bone toilet) modeled from **one public-domain photo** with no tape measure, then redesigned
 with real, buyable products: a 30" Pearl Gray vanity, an oval mirror, a new two-piece toilet,
 glossy Cloe subway tile (green, the nod to the original) and a Carrara marble hex floor. The
-tub stays.
+tub stays. A lighting designer (the `trades` agent) then reviewed it and added the lighting:
+three wet-rated wafers, a vanity bar and an exhaust fan.
 
 Every step here was done by Claude Code in a single session, the same way it runs any room
 (see `PROCESS.md` at the repo root).
@@ -59,4 +60,7 @@ Options: `--design before|new`, `--tile-color cloegreen|cloebabyblue|cloepink`, 
   product from its spec sheet.
 - Open questions: every size is FROM PHOTO. A real job would tape the room's depth first: the
   vanity needs the 31-1/2" between the stub wall and the south wall.
-- Next: pick a 4" centerset faucet (the model uses a generic one).
+- Reviews: lighting designer (2026-10-29): adopted, see "Lighting, fan and switches" in
+  `selections.md`.
+- Next: pick a 4" centerset faucet (the model uses a generic one), and settle where the switches
+  go.

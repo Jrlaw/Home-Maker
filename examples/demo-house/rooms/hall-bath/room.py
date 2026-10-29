@@ -19,9 +19,9 @@ import layout as L  # noqa: E402
 from roomkit import core  # noqa: E402
 from roomkit.core import (IN, arg, box, camera, casing_frame, cut, cylinder, dim, prism, rect_walls,  # noqa: E402
                           sky, sun, to_plan, wall_cutter, wall_run, window_portal)
-from roomkit.materials import (PAINTS, basic_set, image_box_material, principled,  # noqa: E402
+from roomkit.materials import (PAINTS, basic_set, emission, image_box_material, principled,  # noqa: E402
                                wall_tile_material)
-from roomkit.parts import (alcove_tub, centerset_faucet, medicine_cabinet, oval_mirror,  # noqa: E402
+from roomkit.parts import (alcove_tub, can_light, centerset_faucet, medicine_cabinet, oval_mirror,  # noqa: E402
                            shaker_vanity, shower_curtain, six_panel_door, towel_bar,
                            two_piece_toilet, wall_hung_sink, wall_plate)
 
@@ -139,7 +139,7 @@ if NEW:
     centerset_faucet("faucet", (TT + 2.4, vy_c), math.pi / 2, L.VANITY["height"])
     oval_mirror("mirror", (TT, vy_c), math.pi / 2, L.MIRROR)
     two_piece_toilet("toilet", L.TOILET_X, -TT, -math.pi / 2, L.NEW_TOILET)
-    wall_plate("outlet_vanity", TT, vy0 + L.VANITY["width"] + 0.2 - 0.5, 42, 1, "gfci", math.pi / 2, standoff=TT)
+    wall_plate("outlet_vanity", TT, L.OUTLET_Y, 42, 1, "gfci", math.pi / 2, standoff=TT)
 else:
     wall_hung_sink("sink", (TT, L.OLD_SINK_Y), math.pi / 2, L.OLD_SINK)
     medicine_cabinet("cabinet", (TT, L.OLD_SINK_Y), math.pi / 2, L.OLD_CABINET)
@@ -162,16 +162,41 @@ box("hall_wall_w", -44, -40, HY1, HY0, 0, C, "hall_paint")
 box("hall_wall_e", W + 40, W + 44, HY1, HY0, 0, C, "hall_paint")
 
 # ---------------------------------------------------------------- light
-# a fixture over the mirror (out of frame in the photo) plus daylight from the window
-light = core.bpy.data.lights.new("vanity_light", "AREA")
-light.energy = 25 * core.CAN_DIM
-light.size = 18 * IN
-light.color = (1.0, 0.9, 0.78)
-lo = core.bpy.data.objects.new("vanity_light", light)
-lo.location = core.I(8, -80, 82)
-lo.rotation_euler = (0, math.radians(-25), 0)
-core.link(lo)
-core.LIGHTS.append(dict(name="vanity_light", x=8, y=-80, z=82, power=25))
+if NEW:
+    # the lighting designer's plan (selections.md): three wafers, a vanity bar, a fan over the tub
+    principled("can_trim", (0.95, 0.95, 0.95), 0.4)
+    emission("can_lens", (1.0, 0.92, 0.82), 25.0 * (0.35 if core.NIGHT else 1.0))
+    for k, (x, y) in enumerate(L.NEW_CANS):
+        can_light(f"can_{k + 1}", x, y, 40)
+    VL = L.VANITY_LIGHT
+    zt = VL["bottom"] + 6.25                                   # backplate top
+    box("vanity_bar_plate", TT, TT + 1.2, vy_c - VL["width"] / 2, vy_c + VL["width"] / 2, zt - VL["plate_h"], zt, "nickel", bevel=0.3)
+    cylinder("vanity_bar_arm", 0.35, VL["width"] - 2, "nickel", (TT + 3.5, vy_c, zt - 1.5), rot=(math.pi / 2, 0, 0))
+    for dy in (-8, 0, 8):
+        cylinder(f"vanity_bar_cup_{dy}", 0.7, 1.2, "nickel", (TT + 5.5, vy_c + dy, zt - 1.5), segs=24)
+        cylinder(f"vanity_bar_shade_{dy}", 2.4, 4.5, "shade", (TT + 5.5, vy_c + dy, zt - 4.4), segs=32)
+    light = core.bpy.data.lights.new("vanity_light", "AREA")
+    light.shape, light.size, light.size_y = "RECTANGLE", 20 * IN, 4 * IN
+    light.energy = 30 * core.CAN_DIM
+    light.color = (1.0, 0.88, 0.74)                             # 2700 K
+    lo = core.bpy.data.objects.new("vanity_light", light)
+    lo.location = core.I(TT + 5.5, vy_c, VL["bottom"] - 0.3)
+    core.link(lo)
+    core.LIGHTS.append(dict(name="vanity_light", x=TT + 5.5, y=vy_c, z=VL["bottom"], power=30))
+    principled("fan_grille", (0.85, 0.85, 0.83), 0.5)
+    fx, fy = L.FAN
+    box("fan_grille", fx - 5.5, fx + 5.5, fy - 5.5, fy + 5.5, C - 0.4, C - 0.05, "fan_grille", bevel=0.2)
+else:
+    # a fixture over the medicine cabinet (out of frame in the photo)
+    light = core.bpy.data.lights.new("vanity_light", "AREA")
+    light.energy = 25 * core.CAN_DIM
+    light.size = 18 * IN
+    light.color = (1.0, 0.9, 0.78)
+    lo = core.bpy.data.objects.new("vanity_light", light)
+    lo.location = core.I(8, -80, 82)
+    lo.rotation_euler = (0, math.radians(-25), 0)
+    core.link(lo)
+    core.LIGHTS.append(dict(name="vanity_light", x=8, y=-80, z=82, power=25))
 sky()
 SUN_DIR = (-0.35, -0.75, -0.55)     # bright day outside the north window
 sun(SUN_DIR, energy=1.2)

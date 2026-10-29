@@ -158,8 +158,9 @@ def toto_aquia_toilet(x_wall, yc, rot_z=math.pi):
     plan_prism("toilet_skirt", [(x + 1.0, y) for x, y in egg(27.25, 7.4)], 0, 16.2, "ceramic", root)
     plan_prism("toilet_tank", [(x + 0.75, y) for x, y in egg(8.75, 7.6, n_front=6, n_back=6)],
                15.0, 28.4, "ceramic", root)
-    for dy, r in ((-1.4, 0.75), (1.4, 0.55)):  # dual-flush push buttons on the tank lid
-        cylinder("toilet_flush", r, 0.2, "chrome", (x_wall - 5.0, yc + dy, 28.45), segs=24)
+    for dy, r in ((1.4, 0.75), (-1.4, 0.55)):  # dual-flush push buttons on the tank lid, 5" out
+        cylinder("toilet_flush", r, 0.2, "chrome", (x_wall + 5.0 * math.cos(rot_z) - dy * math.sin(rot_z),
+                                                     yc + 5.0 * math.sin(rot_z) + dy * math.cos(rot_z), 28.45), segs=24)
     # WASHLET: rear housing in front of the tank, seat and lid over the bowl
     plan_prism("washlet_housing", [(x + 9.0, y) for x, y in egg(6.5, 7.3, n_front=3, n_back=5)],
                16.2, 19.6, "ceramic", root)

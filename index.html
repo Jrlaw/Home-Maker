@@ -5,16 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Home Renders</title>
 <style>
-:root { --bg: #f3f1ec; --ink: #2a2522; --muted: #6f665e; --accent: #8a5233; }
+:root { --bg: #f3f1ec; --surface: #fbfaf7; --line: #ddd7cd; --ink: #2a2522; --muted: #6f665e; --accent: #8a5233; }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --bg: #1c1916; --ink: #eee8df; --muted: #a89d91; --accent: #c98a5e; color-scheme: dark; }
+  :root:not([data-theme="light"]) { --bg: #1c1916; --surface: #25211d; --line: #3a342e; --ink: #eee8df; --muted: #a89d91; --accent: #c98a5e; color-scheme: dark; }
 }
-:root[data-theme="dark"] { --bg: #1c1916; --ink: #eee8df; --muted: #a89d91; --accent: #c98a5e; color-scheme: dark; }
+:root[data-theme="dark"] { --bg: #1c1916; --surface: #25211d; --line: #3a342e; --ink: #eee8df; --muted: #a89d91; --accent: #c98a5e; color-scheme: dark; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; }
 main { max-width: 640px; margin: 0 auto; padding: 32px 16px; }
 p { color: var(--muted); }
 a { color: var(--accent); }
 code { font-size: 0.95em; }
+h2 { font-size: 1.1rem; margin: 32px 0 12px; }
+.room { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; max-width: 420px; }
+.room img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; background: var(--line); }
+.room div { padding: 12px 14px 14px; display: grid; gap: 4px; }
+.room small { color: var(--muted); }
+.room nav { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -23,6 +29,20 @@ code { font-size: 0.95em; }
   <p>Your rooms are listed on <a href="houses/index.html">houses/index.html</a>.</p>
   <p id="none" hidden>There isn't one yet. Start a room by saying <code>new room: &lt;house&gt;, &lt;room&gt;</code>
     in Claude Code from this folder (see README.md and PROCESS.md).</p>
+  <h2>Example</h2>
+  <article class="room">
+    <img src="examples/demo-house/rooms/powder-room/renders/latest/day/doorway.jpg" alt="The example powder room: oak vanity, backlit mirror, green tile wall">
+    <div>
+      <b>Powder room</b>
+      <small>Demo house · real products, made-up house</small>
+      <nav>
+        <a href="examples/demo-house/rooms/powder-room/web/index.html">Walkthrough</a>
+        <a href="examples/demo-house/rooms/powder-room/web/plans.html">Plans</a>
+        <a href="examples/demo-house/rooms/powder-room/web/selections.html">Selections</a>
+        <a href="examples/demo-house/web/index.html">House map</a>
+      </nav>
+    </div>
+  </article>
 </main>
 <script>
 // the home page itself lives in the private houses/ repo (houses/README.md); go there when it exists

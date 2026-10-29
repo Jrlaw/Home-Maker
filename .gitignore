@@ -5,3 +5,8 @@
 *.blend1
 __pycache__/
 .DS_Store
+# the example room: quick renders and the walkthrough bundle (served from model.glb instead)
+examples/*/rooms/*/renders/*.jpg
+examples/*/rooms/*/web/bundle.js
+examples/*/rooms/*/web/variants/*/bundle.js
+examples/*/rooms/*/web/.bake/

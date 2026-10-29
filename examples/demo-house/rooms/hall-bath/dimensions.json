@@ -1,0 +1,61 @@
+{
+ "units": "inches",
+ "dimensions": {
+  "mirror_center": {
+   "value": 58,
+   "src": "design",
+   "note": "floor to the mirror's center",
+   "default": 58,
+   "override": false,
+   "updated": null
+  },
+  "new_tile_top": {
+   "value": 54,
+   "src": "design",
+   "note": "new wainscot: Cloe 2.5x8 to 54\"",
+   "default": 54,
+   "override": false,
+   "updated": null
+  },
+  "room_d": {
+   "value": 96,
+   "src": "photo",
+   "note": "interior, north-south: tub 60\" + stub wall + sink bay",
+   "default": 96,
+   "override": false,
+   "updated": null
+  },
+  "room_w": {
+   "value": 66,
+   "src": "photo",
+   "note": "interior, east-west: tub 30\" + toilet bay",
+   "default": 66,
+   "override": false,
+   "updated": null
+  },
+  "tile_top": {
+   "value": 49,
+   "src": "photo",
+   "note": "green tile wainscot height: 11 courses of 4-1/4\" over a 2\" cove base",
+   "default": 49,
+   "override": false,
+   "updated": null
+  },
+  "toilet_x": {
+   "value": 51,
+   "src": "photo",
+   "note": "west wall to the toilet's center, under the window",
+   "default": 51,
+   "override": false,
+   "updated": null
+  },
+  "vanity_from_south": {
+   "value": 0.4,
+   "src": "design",
+   "note": "south wall to the vanity: the 31\" sink bay just fits it",
+   "default": 0.4,
+   "override": false,
+   "updated": null
+  }
+ }
+}

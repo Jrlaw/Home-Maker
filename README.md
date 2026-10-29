@@ -8,6 +8,13 @@ bookkeeping. Send it photos, measurements, product links and ideas, and it build
 Blender, renders options side by side, and records every choice. You don't need to run any of
 the scripts yourself.
 
+[![A real session: one photo of a dated bathroom, real products, renders and the walkthrough](docs/demo.gif)](docs/demo.mp4)
+
+*A real Claude Code session, sped up ([full video](docs/demo.mp4)). Starting from one
+public-domain photo, Claude finds the products, models the room as it is and as redesigned,
+renders the options, and builds the website. The result is the example room in
+`examples/demo-house/rooms/hall-bath/`: open http://127.0.0.1:8000 and choose **Example**.*
+
 ## Getting started
 
 1. Install [Claude Code](https://claude.com/claude-code) and
@@ -49,6 +56,31 @@ straight from the folder, but correcting dimensions needs the server.
 - **"status":** every room and its next step.
 - **"show me the walkthrough":** Claude starts the viewer and gives you the link (see
   above).
+
+## Tips
+
+- **Ask for an expert review.** Have Claude spawn a sub-agent that plays a trade and critiques
+  the design, for example: *"Spawn an agent who is a cabinet designer and have them review our
+  renderings and cabinet models for placement and usability in where they're located."* A
+  lighting designer, electrician, tile setter or plumber catches different things: clearances,
+  door swings, where the light falls, outlet and code rules. Ask for one whenever a part of the
+  room gets settled, and log what comes back in `selections.md`.
+- **Tape-measure what matters first.** A model built from photos is close but not exact. Before
+  ordering anything, measure the sizes the design depends on (the walkthrough's Dimensions
+  button shows which ones are guesses), type them into the walkthrough, and Claude rebuilds the room.
+- **One question at a time.** "What would a darker grout look like?" gets a quick side-by-side.
+  Many small asks are better than one big rewrite.
+- **Send product links, not names.** Claude saves the photo and the spec sheet, so the model uses
+  the real dimensions and the link still means something later.
+- **Stop anywhere.** Say "let's stop here" and Claude writes down where the room stands and the
+  next step; "continue &lt;room&gt;" picks it back up in a new session.
+
+## Ideas to build on
+
+- **Expert reviews as a standard step.** The trade reviews above have been useful enough to
+  write into `PROCESS.md`: a cabinet designer once the layout is set, a lighting designer
+  before the lights are picked, and a contractor's walk-through before anything is ordered.
+- **A whole-house walkthrough** once two connected rooms are modeled (see `PROCESS.md`, Houses).
 
 ## How it works
 

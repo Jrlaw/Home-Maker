@@ -648,3 +648,179 @@ def treeline(gz, x0=-900, x1=1100, y0=950, y1=1250, n=26, seed=11):
         t = mesh_obj("treeline", bm, "treeline", smooth=True)
         t.location = I(rnd.uniform(x0, x1), rnd.uniform(y0, y1), gz + rnd.uniform(120, 220))
         t.scale = (1.3, 1, rnd.uniform(0.8, 1.2))
+
+
+# ---------------------------------------------------------------- generic bath fixtures
+# Sized from a dims dict so one part covers many products (spec sheet sizes in the room's
+# layout.py). Wall fixtures use the usual local frame: wall at y=0, room toward -y.
+def two_piece_toilet(name, x_wall, yc, rot_z, T):
+    """Two-piece toilet, back against the wall at (x_wall, yc); rot_z turns local +x (forward)
+    into the room (-pi/2: on a north wall). T: depth (overall, wall to bowl front), rim (rim
+    height), tank_h (to the top of the lid), tank_w, tank_d, bowl_w, bowl_len (round about 17.5,
+    elongated about 19.5), wall_gap (tank to wall), seat_up (show the seat and lid raised)."""
+    _mat("lever", (0.85, 0.85, 0.85), 0.1, 1.0)
+    root = empty(name, (x_wall, yc), rot_z)
+    gap, d, rim = T.get("wall_gap", 1.25), T["depth"], T["rim"]
+    td, tw = T["tank_d"], T["tank_w"]
+    front = d - T["bowl_len"]                       # where the seat opening starts, from the wall
+    back = gap + td - 3.0                           # the china runs back under the tank
+    # base: a narrow pedestal under the bowl, then the bowl itself
+    plan_prism(f"{name}_base", [(x + back + 1.5, y) for x, y in egg(d - back - 3.5, T["bowl_w"] / 2 - 2.2)],
+               0, rim - 5.5, T.get("mat", "ceramic"), root)
+    plan_prism(f"{name}_bowl", [(x + back, y) for x, y in egg(d - back, T["bowl_w"] / 2, n_back=3.0)],
+               rim - 6.5, rim, T.get("mat", "ceramic"), root)
+    # tank, standing on the back of the bowl, with its lid
+    box(f"{name}_tank", gap, gap + td, -tw / 2, tw / 2, rim - 2, T["tank_h"] - 1.0, T.get("mat", "ceramic"), root, bevel=0.6)
+    box(f"{name}_lid", gap - 0.3, gap + td + 0.3, -tw / 2 - 0.3, tw / 2 + 0.3, T["tank_h"] - 1.0, T["tank_h"],
+        T.get("mat", "ceramic"), root, bevel=0.4)
+    box(f"{name}_lever", gap + td - 0.2, gap + td + 0.8, tw / 2 - 3.5, tw / 2 - 1.0, T["tank_h"] - 3.3, T["tank_h"] - 2.6,
+        "lever", root, bevel=0.15)
+    seat_mat = T.get("seat_mat", T.get("mat", "ceramic"))
+    if T.get("seat_up"):
+        # seat and lid raised against the tank
+        box(f"{name}_seat", gap + td + 0.2, gap + td + 1.2, -T["bowl_w"] / 2 + 0.5, T["bowl_w"] / 2 - 0.5,
+            rim + 0.6, rim + T["bowl_len"] - 1, seat_mat, root, bevel=0.4)
+    else:
+        plan_prism(f"{name}_seat", [(x + front + 0.5, y) for x, y in egg(T["bowl_len"] - 0.5, T["bowl_w"] / 2 - 0.2, back_square=False)],
+                   rim + 0.1, rim + 1.0, seat_mat, root)
+        plan_prism(f"{name}_cover", [(x + front + 0.7, y) for x, y in egg(T["bowl_len"] - 1, T["bowl_w"] / 2 - 0.5, back_square=False)],
+                   rim + 1.05, rim + 1.9, seat_mat, root)
+    return root
+
+
+def shaker_vanity(name, origin, rot_z, V):
+    """Freestanding two-door shaker vanity with a one-piece top and integrated sink (the kind
+    sold with a cultured-marble top). Local frame: wall at y=0, front toward -y, x 0..width.
+    V: width, depth, height (to the top of the counter), top_t, kick (toe-kick height),
+    paint (cabinet material), top (counter material), knob (hardware material)."""
+    root = empty(name, origin, rot_z)
+    w, d, h, tt, k = V["width"], V["depth"], V["height"], V["top_t"], V.get("kick", 3.5)
+    cab_d = d - 1.0                                   # the top overhangs the doors by about an inch
+    paint, knob = V.get("paint", "vanity_paint"), V.get("knob", "nickel")
+    box(f"{name}_carcass", 0, w, -cab_d + 0.75, 0, k, h - tt, paint, root)
+    # toe kick: recessed panel between two short side legs
+    box(f"{name}_kick", 1.5, w - 1.5, -cab_d + 2.75, -2, 0, k, paint, root)
+    for x0 in (0, w - 1.5):
+        box(f"{name}_foot", x0, x0 + 1.5, -cab_d + 0.75, -1, 0, k, paint, root)
+    # two shaker doors: flat frame around a recessed panel, a knob near the meeting edges
+    rail, gap = 2.25, 0.125
+    dw = (w - 3 * gap) / 2
+    z0, z1 = k + 0.75, h - tt - 0.5
+    for i in range(2):
+        x0 = gap + i * (dw + gap)
+        x1 = x0 + dw
+        y0 = -cab_d
+        box(f"{name}_door{i}_panel", x0 + rail, x1 - rail, y0 + 0.5, y0 + 0.75, z0 + rail, z1 - rail, paint, root)
+        for (a, b, c, e) in ((x0, x1, z0, z0 + rail), (x0, x1, z1 - rail, z1),
+                             (x0, x0 + rail, z0 + rail, z1 - rail), (x1 - rail, x1, z0 + rail, z1 - rail)):
+            box(f"{name}_door{i}_frame", a, b, y0, y0 + 0.75, c, e, paint, root, bevel=0.06)
+        kx = x1 - 1.6 if i == 0 else x0 + 1.6
+        cylinder(f"{name}_knob{i}", 0.55, 1.1, knob, (kx, y0 - 0.55, z1 - 3.0), rot=(math.pi / 2, 0, 0), segs=24, parent=root)
+    # counter with an integrated rectangular basin and a 4" centerset faucet deck
+    top = box(f"{name}_top", -0.25, w + 0.25, -d, 0, h - tt, h, V.get("top", "vanity_top"), root, bevel=0.15)
+    bw, bd = V.get("basin_w", min(19.0, w - 9)), V.get("basin_d", d - 7.5)
+    bx0, by0 = w / 2 - bw / 2, -d + 2.25
+    basin_cut = box(f"{name}_basincut", bx0, bx0 + bw, by0, by0 + bd, h - 5.5, h + 1, None, root, bevel=1.2)
+    cut(top, basin_cut)
+    top.modifiers.move(len(top.modifiers) - 1, 0)    # boolean before bevel
+    box(f"{name}_basin", bx0 - 0.3, bx0 + bw + 0.3, by0 - 0.3, by0 + bd + 0.3, h - 5.8, h - 5.5,
+        V.get("top", "vanity_top"), root)
+    cylinder(f"{name}_drain", 0.8, 0.1, "chrome", (w / 2, by0 + bd / 2, h - 5.45), parent=root)
+    return root
+
+
+def centerset_faucet(name, origin, rot_z, z, F=None):
+    """4" centerset bathroom faucet on a deck at height z: a low base plate, a curved spout from
+    the middle, and one lever on top. Local frame: wall at y=0, room toward -y; origin is the
+    faucet's center on the counter. F: spout_h, reach, mat."""
+    F = F or {}
+    root = empty(name, origin, rot_z)
+    m = F.get("mat", "chrome")
+    box(f"{name}_base", -3.0, 3.0, -1.1, 1.1, z, z + 0.9, m, root, bevel=0.45)
+    sh, reach = F.get("spout_h", 4.5), F.get("reach", 4.5)
+    cylinder(f"{name}_neck", 0.55, sh - 0.6, m, (0, 0, z + 0.9 + (sh - 0.6) / 2), parent=root)
+    cylinder(f"{name}_spout", 0.45, reach, m, (0, -reach / 2, z + sh), rot=(math.pi / 2, 0, 0), parent=root)
+    cylinder(f"{name}_tip", 0.5, 0.9, m, (0, -reach + 0.3, z + sh - 0.45), parent=root)
+    box(f"{name}_lever", -0.35, 0.35, -0.2, 3.2, z + sh + 0.4, z + sh + 0.9, m, root, bevel=0.15)
+    cylinder(f"{name}_cap", 0.65, 0.8, m, (0, 0, z + sh + 0.4), parent=root)
+    return root
+
+
+def wall_hung_sink(name, origin, rot_z, S):
+    """Wall-hung lavatory: a deep rectangular china sink on a hanger, with a single-lever faucet
+    and a chrome P-trap below. Local frame: wall at y=0, room toward -y, centered on x=0.
+    S: width, depth, rim (rim height), thick (front apron height)."""
+    root = empty(name, origin, rot_z)
+    w, d, rim, t = S["width"], S["depth"], S["rim"], S.get("thick", 6.0)
+    body = box(f"{name}_body", -w / 2, w / 2, -d, 0, rim - t, rim, "ceramic", root, bevel=0.9)
+    bowl = box(f"{name}_bowlcut", -w / 2 + 2, w / 2 - 2, -d + 1.8, -4.5, rim - t + 1.2, rim + 1, None, root, bevel=1.5)
+    cut(body, bowl)
+    body.modifiers.move(len(body.modifiers) - 1, 0)
+    box(f"{name}_back", -w / 2, w / 2, -4.5, 0, rim, rim + 1.6, "ceramic", root, bevel=0.5)   # faucet deck
+    centerset_faucet(f"{name}_faucet", (0, -2.3), 0.0, rim + 1.6, dict(spout_h=3.8, reach=4.0))
+    cylinder(f"{name}_tail", 0.75, 8, "chrome", (0, -d / 2, rim - t - 4), parent=root)
+    cylinder(f"{name}_arm", 0.75, d / 2, "chrome", (0, -d / 4, rim - t - 9), rot=(math.pi / 2, 0, 0), parent=root)
+    return root
+
+
+def alcove_tub(name, x0, x1, y0, y1, T=None):
+    """Alcove bathtub filling the plan rectangle x0..x1, y0..y1, apron on the side that faces
+    the room. T: height, wall (rim width), mat."""
+    T = T or {}
+    h, rw = T.get("height", 15.0), T.get("wall", 3.0)
+    tub = box(name, x0, x1, y0, y1, 0, h, T.get("mat", "acrylic"), bevel=0.4)
+    cut(tub, box(f"{name}_cut", x0 + rw, x1 - rw, y0 + rw + 2, y1 - rw, 2.0, h + 1, None, bevel=2.0))
+    tub.modifiers.move(len(tub.modifiers) - 1, 0)
+    return tub
+
+
+def oval_mirror(name, origin, rot_z, M):
+    """Frameless oval mirror on a wall, centered at x=0 of the local frame. M: width, height,
+    center (height of its center), thick."""
+    root = empty(name, origin, rot_z)
+    w, h, t = M["width"], M["height"], M.get("thick", 0.25)
+    m = cylinder(f"{name}_glass", w / 2, t, "mirror", (0, -t / 2 - 0.4, M["center"]), rot=(math.pi / 2, 0, 0), segs=96, parent=root)
+    m.scale = (1, h / w, 1)
+    m.data.polygons.foreach_set("use_smooth", [False] * len(m.data.polygons))   # flat glass, true reflection
+    m["outline"] = "oval"     # the walkthrough draws its reflection as an oval, not a rectangle
+    b = cylinder(f"{name}_back", w / 2 - 1.5, 0.4, "mirror_back", (0, -0.2, M["center"]), rot=(math.pi / 2, 0, 0), segs=64, parent=root)
+    b.scale = (1, (h - 3) / (w - 3), 1)
+    return root
+
+
+def medicine_cabinet(name, origin, rot_z, C):
+    """Surface-mounted medicine cabinet: a shallow box with a mirror door. Local frame: wall at
+    y=0, centered on x=0. C: width, height, depth, bottom."""
+    root = empty(name, origin, rot_z)
+    w, h, d, z0 = C["width"], C["height"], C["depth"], C["bottom"]
+    box(f"{name}_box", -w / 2, w / 2, -d + 0.4, 0, z0, z0 + h, C.get("mat", "trim"), root, bevel=0.2)
+    box(f"{name}_mirror", -w / 2 + 0.5, w / 2 - 0.5, -d, -d + 0.4, z0 + 0.5, z0 + h - 0.5, "mirror", root, bevel=0.15)
+    return root
+
+
+def towel_bar(name, origin, rot_z, length=24, z=40, mat="chrome"):
+    """Straight towel bar: two posts and a round bar, centered at x=0 of the local frame."""
+    root = empty(name, origin, rot_z)
+    for sx in (-1, 1):
+        box(f"{name}_post", sx * length / 2 - 0.6, sx * length / 2 + 0.6, -2.6, 0, z - 0.9, z + 0.9, mat, root, bevel=0.2)
+    cylinder(f"{name}_bar", 0.35, length, mat, (0, -2.2, z), rot=(0, math.pi / 2, 0), parent=root)
+    return root
+
+
+def shower_curtain(name, x, y0, y1, z0, z1, folds=9, mat="curtain"):
+    """Shower curtain hanging in a plane x = const from y0 to y1 (bunched: short span, many
+    folds), with a chrome rod above it running the tub's length."""
+    bm = bmesh.new()
+    n = folds * 8
+    top, bot = [], []
+    for i in range(n + 1):
+        t = i / n
+        y = y0 + (y1 - y0) * t
+        dx = 1.2 * math.sin(t * folds * 2 * math.pi)
+        bot.append(bm.verts.new(((x + dx) * IN, y * IN, z0 * IN)))
+        top.append(bm.verts.new(((x + dx) * IN, y * IN, z1 * IN)))
+    for i in range(n):
+        bm.faces.new((bot[i], bot[i + 1], top[i + 1], top[i]))
+    ob = mesh_obj(name, bm, mat, smooth=True)
+    ob.modifiers.new("solid", "SOLIDIFY").thickness = 0.08 * IN
+    return ob

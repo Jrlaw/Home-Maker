@@ -715,7 +715,8 @@ def export_web(out, extra):
         os.remove(os.path.join(out, "textures", "bake.jpg"))   # stale: this export isn't baked
     bpy.ops.export_scene.gltf(filepath=os.path.join(out, "model.glb"), export_format="GLB",
                               use_renderable=True, export_apply=True, export_cameras=False,
-                              export_lights=False, export_image_format="NONE", export_yup=True)
+                              export_lights=False, export_image_format="NONE", export_yup=True,
+                              export_extras=True)   # custom properties, e.g. a mirror's "outline"
     from . import dimensions
     info = dict(units="inches; plan x east, y north, z up", ceiling=CEILING,
                 cameras=CAM_DATA, lights=LIGHTS, dims=DIMS, dimensions=dimensions.entries(),

@@ -42,6 +42,12 @@ TILE_COLORS = {
     "palettesage": ((0.47, 0.48, 0.42), (0.565, 0.578, 0.509)),  # TileBar Palette Soft Sage Green 4x16 matte ~#C6C8BD
     "missionblue": ((0.40, 0.44, 0.45), (0.474, 0.521, 0.533)),  # TileBar Mission Light Blue 4x16 matte ~#B7BFC1
     "renzojade": ((0.50, 0.53, 0.43), (0.60, 0.62, 0.52)),       # MSI Renzo Jade 3x12 glossy ~#CBCFBE
+    # Bedrosians Cloe 2.5x8 glossy, from the product photos (the example hall bath)
+    "cloegreen": ((0.026, 0.048, 0.031), (0.040, 0.070, 0.046)),   # deep forest green ~#32443A
+    "cloebabyblue": ((0.53, 0.63, 0.64), (0.61, 0.71, 0.72)),      # pale aqua blue ~#C7D6D7
+    "cloepink": ((0.73, 0.50, 0.48), (0.82, 0.59, 0.57)),          # soft blush ~#E4C3C0
+    # mid-century 4-1/4" jadeite green wall tile, from a photo (the example's "before")
+    "retrogreen": ((0.070, 0.190, 0.037), (0.085, 0.230, 0.045)),  # ~#4F7F39
 }
 # finish per color: (roughness, strong tile-to-tile variation, wavy glaze); default glossy glazed
 TILE_FINISHES = {
@@ -54,6 +60,10 @@ TILE_FINISHES = {
     "palettesage": (0.45, False, False), # matte ceramic, even color
     "missionblue": (0.45, False, False), # matte ceramic, even color
     "renzojade": (0.05, True, True),     # glossy, high tone variation, wavy handmade face
+    "cloegreen": (0.05, True, True),     # glossy, handmade look with a wavy face
+    "cloebabyblue": (0.05, True, True),
+    "cloepink": (0.05, True, True),
+    "retrogreen": (0.12, False, False),  # old glazed wall tile, even color
 }
 # tile pattern: (width along the wall, height, row offset, handmade look)
 TILE_PATTERNS = {
@@ -63,6 +73,8 @@ TILE_PATTERNS = {
     "vstack12": (3.0, 12.0, 0.0, False),   # 3x12 vertical stack (Pure Spearmint)
     "vstack6": (2.0, 6.25, 0.0, False),    # 2x6 vertical stack (Cleo)
     "vstack16": (4.0, 16.0, 0.0, False),   # 4x16 vertical stack (TileBar Palette / Mission)
+    "subway8": (8.0, 2.5, 0.5, True),      # 2.5x8 horizontal running bond (Bedrosians Cloe)
+    "square4": (4.25, 4.25, 0.0, False),   # 4-1/4" squares, stacked grid (classic wall tile)
 }
 
 

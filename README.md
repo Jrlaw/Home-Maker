@@ -1,5 +1,7 @@
 # Rendervation
 
+**Render your renovation before you start it.**
+
 Photoreal 3D models of rooms, before and after a remodel, with a walkthrough you can open in the
 browser. One room at a time, in any house.
 

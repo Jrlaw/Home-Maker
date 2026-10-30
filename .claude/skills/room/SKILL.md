@@ -16,15 +16,16 @@ The user drives everything by talking; never hand them commands to run. Run rend
 the selections page and the local server (`lib/serve.sh`, http://127.0.0.1:8000) yourself.
 
 **First run ("set me up", or `houses/` doesn't exist):**
-1. Check Blender: copy `template/room/` to a temp folder inside `houses/_check/rooms/box`, run its
+1. Create the private houses repo: `git init houses`, copy `template/home.html` to
+   `houses/index.html` and `template/catalog/` to `houses/catalog/`, and write
+   `houses/.gitignore` with: `*/rooms/*/renders/*.jpg`, `*/rooms/*/web/bundle.js`,
+   `*/rooms/*/web/.bake/`, `*.blend`, `*.blend1`, `__pycache__/`.
+2. Check Blender: copy `template/room/` to `houses/_check/rooms/box`, run its
    `./render.sh --cams photo1 --samples 16 --res 800 --out /tmp/home-render-check`, and report
    the `RENDER DEVICE` line (none means CPU: say renders will be slow). If Blender isn't found,
    say where to install it or set `BLENDER=/path/to/blender`. Delete `houses/_check` after.
-2. Create the private houses repo: `git init houses`, copy `template/home.html` to
-   `houses/index.html`, and write `houses/.gitignore` with: `*/rooms/*/renders/*.jpg`,
-   `*/rooms/*/web/bundle.js`, `*/rooms/*/web/.bake/`, `*.blend`, `*.blend1`, `__pycache__/`.
-   Offer to connect it to a private remote of their own.
-3. Ask for their first room ("new room: <house>, <room>").
+3. Offer to connect `houses/` to a private remote of their own, then ask for their first room
+   ("new room: <house>, <room>").
 
 ## Commands
 
@@ -49,12 +50,15 @@ the selections page and the local server (`lib/serve.sh`, http://127.0.0.1:8000)
   measurements to settle conflicts.
 - **Check the model against the photos** before designing: render each photo view and compare
   them side by side.
-- **Shared parts:** reuse `lib/roomkit` and add general parts there. Keep one-offs in the room's
-  `room.py`.
+- **Keep the person's things out of `lib/`.** Specific products (a particular vanity, a tile
+  color measured from a product photo) go in their catalog, `houses/catalog/` (`parts.py`,
+  `materials.py`); one-offs stay in the room's `room.py`. Reuse `lib/roomkit` freely, but change
+  it only for something general (a new kind of part, a fix), and then as a PR to this repo.
 - **Rendering:** through the room's `./render.sh`, which finds Blender and the GPU. Time the
   first render on a machine and give ETAs from it.
 - **Commits:** commit and push only when the user asks, with their own git identity. Room work
-  goes in the `houses/` repo; toolkit changes (`lib/`, `template/`, docs) go in this repo.
+  and the catalog go in the `houses/` repo; toolkit changes (`lib/`, `template/`, docs) go in
+  this repo, on a branch, as a PR.
 - **Experts:** the `trades` and `designer` agents (`.claude/agents/`) review the room or source
   products, in the background. Offer one at the checkpoints in PROCESS.md ("Experts"), in one
   line ("Want a lighting designer to look at this before we stop?"), and run it only on a yes

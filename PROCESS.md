@@ -49,10 +49,15 @@ numbered, and record the answers under "Notes from the walkthrough".
    standard size sheet for every room, and show in the walkthrough (Dimensions button, or hover
    a wall). A value corrected there, or typed into the walkthrough with `lib/serve.sh` running,
    overrides the default in `layout.py`.
-2. Build `room.py`. Start from the template's box room. Reuse `lib/roomkit` parts (doors, cased
-   openings, outlets and switches, registers, cans, wainscot, shelves, the products already
-   modeled). Add a part to `lib/roomkit/parts.py` when another room could use it, and keep
-   one-off pieces in the room's own `room.py`.
+2. Build `room.py`. Start from the template's box room. Reuse the `lib/roomkit` parts (doors,
+   cased openings, outlets and switches, registers, cans, wainscot, shelves, generic toilets,
+   vanities, tubs and mirrors) and the products already in the person's catalog
+   (`houses/catalog/`). Where new code goes:
+   - **A specific product** (a particular vanity, toilet or tub model): `houses/catalog/parts.py`,
+     so the person's other rooms can use it.
+   - **A one-off** (this room's soffit, an odd closet): the room's own `room.py`.
+   - **Something general** that's missing from `lib/roomkit` (a new kind of part, a fix): change
+     `lib/` only for that, and offer it back as a PR to the toolkit repo.
 3. Add a camera for each intake photo (`photo1`, `photo2`, …) and move it until the render
    lines up with the photo. Put the converted photos in `web/before/photoN.jpg`.
 4. **Check against the photos.** Render each photo view (`--samples 24 --res 1000`) and compare
@@ -68,7 +73,9 @@ Whenever a product link, screenshot or idea comes in, or Claude suggests one:
    who suggested it. Save the product photo to `intake/products/`, since links break and some
    sites block downloads (ask for a saved page or a direct image link then).
 2. **Model it.** Sizes come from the spec sheet. Colors and textures are measured from the
-   product photos (`textures/`), and new tile colors go in `lib/roomkit/materials.py`.
+   product photos (`textures/`). New paint and tile colors go in the person's catalog,
+   `houses/catalog/materials.py`, and the product itself in `houses/catalog/parts.py` if it
+   needs its own model.
 3. **Options get a command-line switch** (`--tile-color sage`) so they can be rendered side
    by side. Option sets go in `renders/options/<topic>/`, with a labeled comparison sheet
    (`magick montage`).

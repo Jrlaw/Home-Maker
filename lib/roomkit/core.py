@@ -669,10 +669,10 @@ def bake_lighting(out):
     return sorted(m.name for m in mats)
 
 
-# shell pieces: not "objects" for the walkthrough's hover sizes (walls get measured by ray instead)
-SHELL = ("walls", "base", "floor", "ceiling", "surface", "outside", "kitchen_tile", "sun_floor", "recess",
-         "soffit", "bay_wall", "case_", "cut_", "can_", "grille", "threshold", "baked", "sun_walls",
-         "office_room", "hall_", "laundry_room", "coat_closet", "office_closet", "recess_wall", "stairwell")
+# shell pieces: not "objects" for the walkthrough's hover sizes (walls get measured by ray instead).
+# A room adds its own name prefixes: core.SHELL += ("sun_floor", "stairwell")
+SHELL = ("walls", "base", "floor", "ceiling", "surface", "outside", "recess", "soffit", "case_", "cut_",
+         "can_", "grille", "threshold", "baked", "hall_")
 
 
 def object_boxes():

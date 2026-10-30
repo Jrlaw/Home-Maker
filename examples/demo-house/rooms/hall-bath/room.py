@@ -14,8 +14,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = HERE
 while not os.path.isdir(os.path.join(ROOT, "lib", "roomkit")):   # the repo root
     ROOT = os.path.dirname(ROOT)
-sys.path[:0] = [HERE, os.path.join(ROOT, "lib")]
+CATALOG = HERE   # the folder holding catalog/: houses/ (your products and colors) or examples/
+while CATALOG != ROOT and not os.path.isdir(os.path.join(CATALOG, "catalog")):
+    CATALOG = os.path.dirname(CATALOG)
+sys.path[:0] = [HERE, CATALOG, os.path.join(ROOT, "lib")]
 import layout as L  # noqa: E402
+import catalog  # noqa: E402,F401  (adds its colors to roomkit's tables)
 from roomkit import core  # noqa: E402
 from roomkit.core import (IN, arg, box, camera, casing_frame, cut, cylinder, dim, prism, rect_walls,  # noqa: E402
                           sky, sun, to_plan, wall_cutter, wall_run, window_portal)

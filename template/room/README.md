@@ -38,7 +38,7 @@ Walkthrough model (after any change to the room):
 Then run `lib/serve.sh` from the repo root and open http://127.0.0.1:8000, or double-click
 `web/index.html`.
 
-Options: `--paint <name>` (see `lib/roomkit/materials.py`).
+Options: `--paint <name>` (see `lib/roomkit/materials.py` and `houses/catalog/materials.py`).
 
 ## Current state
 

@@ -1,4 +1,7 @@
-"""Shader materials shared by every room, plus the paint and tile colors tried so far.
+"""Shader materials shared by every room, plus a few generic paint and tile colors.
+
+Colors measured from a specific product go in the person's catalog (houses/catalog/), which
+adds them to PAINTS, TILE_COLORS and TILE_FINISHES.
 
 Every material is registered in core.MATS under its name, so geometry helpers can take
 the name. Image textures load from the room's textures/ folder.
@@ -28,52 +31,27 @@ TILE_COLORS = {
     "sage": ((0.56, 0.61, 0.48), (0.62, 0.67, 0.54)),      # pale celadon sage ~#C9CFBC
     "blue": ((0.49, 0.57, 0.62), (0.55, 0.63, 0.68)),      # dusty, greyed light blue ~#BCC9D0
     "bone": ((0.78, 0.71, 0.57), (0.84, 0.77, 0.63)),      # warm glossy cream ~#E6DCC8
-    "product": ((0.78, 0.735, 0.69), (0.83, 0.785, 0.74)), # tile in the Afhocomp product photo ~#E8E2DC
-    # measured from the product photos
-    "spearmint": ((0.60, 0.69, 0.57), (0.65, 0.73, 0.60)), # Floor & Decor Pure Spearmint glass ~#D1DCCB
-    "robin": ((0.34, 0.46, 0.455), (0.455, 0.57, 0.565)), # TileBar Color One Robin Egg Blue cement, photo ~#ADBDB7; nudged bluer to read right under warm light
-    "cleosage": ((0.17, 0.24, 0.20), (0.30, 0.38, 0.30)),  # Edward Martin Cleo Sage glossy ~#8BA58E
     "teal": ((0.03, 0.20, 0.21), (0.06, 0.27, 0.28)),      # deep glossy mid-century teal ~#2F6F72
     "deepblue": ((0.010, 0.032, 0.090), (0.024, 0.062, 0.150)),   # glossy deep blue ~#1E3A5C-#2A4F72, varied
     "terracotta": ((0.36, 0.070, 0.024), (0.55, 0.140, 0.052)),   # glossy burnt-orange terracotta ~#A34B2A-#C4693E, varied
     "plum": ((0.060, 0.025, 0.085), (0.110, 0.050, 0.150)),   # glossy muted plum/aubergine ~#47304F-#5E3F6B, varied
     "ochre": ((0.58, 0.40, 0.16), (0.70, 0.52, 0.25)),     # warm handmade mustard / ochre ~#C8973F
-    # larger-format matte and glossy tiles, from the product photos
-    "palettesage": ((0.47, 0.48, 0.42), (0.565, 0.578, 0.509)),  # TileBar Palette Soft Sage Green 4x16 matte ~#C6C8BD
-    "missionblue": ((0.40, 0.44, 0.45), (0.474, 0.521, 0.533)),  # TileBar Mission Light Blue 4x16 matte ~#B7BFC1
-    "renzojade": ((0.50, 0.53, 0.43), (0.60, 0.62, 0.52)),       # MSI Renzo Jade 3x12 glossy ~#CBCFBE
-    # Bedrosians Cloe 2.5x8 glossy, from the product photos (the example hall bath)
-    "cloegreen": ((0.026, 0.048, 0.031), (0.040, 0.070, 0.046)),   # deep forest green ~#32443A
-    "cloebabyblue": ((0.53, 0.63, 0.64), (0.61, 0.71, 0.72)),      # pale aqua blue ~#C7D6D7
-    "cloepink": ((0.73, 0.50, 0.48), (0.82, 0.59, 0.57)),          # soft blush ~#E4C3C0
-    # mid-century 4-1/4" jadeite green wall tile, from a photo (the example's "before")
-    "retrogreen": ((0.070, 0.190, 0.037), (0.085, 0.230, 0.045)),  # ~#4F7F39
 }
 # finish per color: (roughness, strong tile-to-tile variation, wavy glaze); default glossy glazed
 TILE_FINISHES = {
     "deepblue": (0.08, True, False),
     "plum": (0.08, True, False),
     "terracotta": (0.12, True, False),   # glossy, with a clear tile-to-tile shade spread
-    "spearmint": (0.02, False, False),   # polished glass
-    "robin": (0.55, True, False),        # matte cement, hand-poured (V4 shade variation)
-    "cleosage": (0.06, True, True),      # glossy, artisan surface
-    "palettesage": (0.45, False, False), # matte ceramic, even color
-    "missionblue": (0.45, False, False), # matte ceramic, even color
-    "renzojade": (0.05, True, True),     # glossy, high tone variation, wavy handmade face
-    "cloegreen": (0.05, True, True),     # glossy, handmade look with a wavy face
-    "cloebabyblue": (0.05, True, True),
-    "cloepink": (0.05, True, True),
-    "retrogreen": (0.12, False, False),  # old glazed wall tile, even color
 }
 # tile pattern: (width along the wall, height, row offset, handmade look)
 TILE_PATTERNS = {
     "subway": (6.0, 3.0, 0.5, False),      # 3x6 horizontal running bond
     "vstack": (2.0, 8.0, 0.0, False),      # 2x8 vertical stack
     "zellige": (4.0, 4.0, 0.0, True),      # 4x4 handmade-look squares, stacked grid
-    "vstack12": (3.0, 12.0, 0.0, False),   # 3x12 vertical stack (Pure Spearmint)
-    "vstack6": (2.0, 6.25, 0.0, False),    # 2x6 vertical stack (Cleo)
-    "vstack16": (4.0, 16.0, 0.0, False),   # 4x16 vertical stack (TileBar Palette / Mission)
-    "subway8": (8.0, 2.5, 0.5, True),      # 2.5x8 horizontal running bond (Bedrosians Cloe)
+    "vstack12": (3.0, 12.0, 0.0, False),   # 3x12 vertical stack
+    "vstack6": (2.0, 6.25, 0.0, False),    # 2x6 vertical stack
+    "vstack16": (4.0, 16.0, 0.0, False),   # 4x16 vertical stack
+    "subway8": (8.0, 2.5, 0.5, True),      # 2.5x8 horizontal running bond
     "square4": (4.25, 4.25, 0.0, False),   # 4-1/4" squares, stacked grid (classic wall tile)
 }
 
@@ -290,8 +268,8 @@ def emission(name, color, strength):
 
 
 def veined_stone_material(name="travertine", cream=(0.74, 0.67, 0.57), vein=(0.58, 0.50, 0.40), rough=0.45):
-    """Pale stone with long horizontal veins (defaults: Roma Travertine, colors measured from
-    the Afhocomp product close-up). Procedural so a 48" slab shows no repeat."""
+    """Pale stone with long horizontal veins (defaults: a cream travertine). Procedural so a 48"
+    slab shows no repeat."""
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree

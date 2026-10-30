@@ -3,8 +3,8 @@
 Built from layout.py (inches) with the shared parts in lib/roomkit. Run through ./render.sh;
 options are listed in README.md. Plan coordinates: x east, y north, origin at the room's
 interior NW corner. Start from a plain box that matches the photos, then add what's in the
-room (lib/roomkit/parts.py has doors, outlets, cans, shelves, towel hardware and the products
-modeled so far).
+room (lib/roomkit/parts.py has doors, outlets, cans, shelves and generic fixtures; specific
+products go in houses/catalog/).
 """
 import math
 import os
@@ -14,8 +14,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = HERE
 while not os.path.isdir(os.path.join(ROOT, "lib", "roomkit")):   # the repo root, above houses/
     ROOT = os.path.dirname(ROOT)
-sys.path[:0] = [HERE, os.path.join(ROOT, "lib")]
+CATALOG = HERE   # the folder holding catalog/: houses/ (your products and colors) or examples/
+while CATALOG != ROOT and not os.path.isdir(os.path.join(CATALOG, "catalog")):
+    CATALOG = os.path.dirname(CATALOG)
+sys.path[:0] = [HERE, CATALOG, os.path.join(ROOT, "lib")]
 import layout as L  # noqa: E402
+import catalog  # noqa: E402,F401  (adds its colors to roomkit's tables)
 from roomkit import core  # noqa: E402
 from roomkit.core import (arg, box, camera, casing_frame, cut, dim, prism, rect_walls, sky, sun,  # noqa: E402
                           to_plan, wall_cutter, wall_run, window_portal)

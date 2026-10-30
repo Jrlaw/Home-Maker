@@ -31,14 +31,14 @@ TILE_COLORS = {
     "product": ((0.78, 0.735, 0.69), (0.83, 0.785, 0.74)), # tile in the Afhocomp product photo ~#E8E2DC
     # measured from the product photos
     "spearmint": ((0.60, 0.69, 0.57), (0.65, 0.73, 0.60)), # Floor & Decor Pure Spearmint glass ~#D1DCCB
-    "robin": ((0.34, 0.46, 0.455), (0.455, 0.57, 0.565)), # TileBar Color One Robin Egg Blue cement, photo ~#ADBDB7; bluer than measured so it reads like the photo under the room's warm light, picked by eye (step C, 2026-10-26; was (0.36,0.46,0.42)-(0.48,0.57,0.52))
+    "robin": ((0.34, 0.46, 0.455), (0.455, 0.57, 0.565)), # TileBar Color One Robin Egg Blue cement, photo ~#ADBDB7; nudged bluer to read right under warm light
     "cleosage": ((0.17, 0.24, 0.20), (0.30, 0.38, 0.30)),  # Edward Martin Cleo Sage glossy ~#8BA58E
     "teal": ((0.03, 0.20, 0.21), (0.06, 0.27, 0.28)),      # deep glossy mid-century teal ~#2F6F72
     "deepblue": ((0.010, 0.032, 0.090), (0.024, 0.062, 0.150)),   # glossy deep blue ~#1E3A5C-#2A4F72, varied
     "terracotta": ((0.36, 0.070, 0.024), (0.55, 0.140, 0.052)),   # glossy burnt-orange terracotta ~#A34B2A-#C4693E, varied
     "plum": ((0.060, 0.025, 0.085), (0.110, 0.050, 0.150)),   # glossy muted plum/aubergine ~#47304F-#5E3F6B, varied
     "ochre": ((0.58, 0.40, 0.16), (0.70, 0.52, 0.25)),     # warm handmade mustard / ochre ~#C8973F
-    # larger-format, lower-cost alternatives to Robin Egg Blue (2026-10-25), from the product photos
+    # larger-format matte and glossy tiles, from the product photos
     "palettesage": ((0.47, 0.48, 0.42), (0.565, 0.578, 0.509)),  # TileBar Palette Soft Sage Green 4x16 matte ~#C6C8BD
     "missionblue": ((0.40, 0.44, 0.45), (0.474, 0.521, 0.533)),  # TileBar Mission Light Blue 4x16 matte ~#B7BFC1
     "renzojade": ((0.50, 0.53, 0.43), (0.60, 0.62, 0.52)),       # MSI Renzo Jade 3x12 glossy ~#CBCFBE

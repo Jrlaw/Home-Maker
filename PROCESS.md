@@ -1,8 +1,7 @@
 # How a room gets modeled
 
-The steps every room follows, from "new room" to a walkthrough. They're the steps the first
-room went through (a primary bathroom, October 2026), written down so any room, in any house,
-goes the same way. Claude follows this file. Saying "new room: <house>, <room>" in a Claude Code
+The steps every room follows, from "new room" to a walkthrough, written down so any room, in
+any house, goes the same way. Claude follows this file. Saying "new room: <house>, <room>" in a Claude Code
 session in this folder starts it.
 
 Rooms stand alone. A house is just the folder its rooms share, and rooms get placed relative
@@ -70,7 +69,7 @@ Whenever a product link, screenshot or idea comes in, or Claude suggests one:
    sites block downloads (ask for a saved page or a direct image link then).
 2. **Model it.** Sizes come from the spec sheet. Colors and textures are measured from the
    product photos (`textures/`), and new tile colors go in `lib/roomkit/materials.py`.
-3. **Options get a command-line switch** (`--tile-color robin`) so they can be rendered side
+3. **Options get a command-line switch** (`--tile-color sage`) so they can be rendered side
    by side. Option sets go in `renders/options/<topic>/`, with a labeled comparison sheet
    (`magick montage`).
 4. **When something is picked**, update its status in `selections.md`, make it the default in

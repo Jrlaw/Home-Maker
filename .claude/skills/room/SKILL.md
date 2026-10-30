@@ -21,7 +21,7 @@ the selections page and the local server (`lib/serve.sh`, http://127.0.0.1:8000)
    `houses/.gitignore` with: `*/rooms/*/renders/*.jpg`, `*/rooms/*/web/bundle.js`,
    `*/rooms/*/web/.bake/`, `*.blend`, `*.blend1`, `__pycache__/`.
 2. Check Blender: copy `template/room/` to `houses/_check/rooms/box`, run its
-   `./render.sh --cams photo1 --samples 16 --res 800 --out /tmp/home-maker-check`, and report
+   `./render.sh --cams photo1 --samples 16 --res 800 --out /tmp/rendervation-check`, and report
    the `RENDER DEVICE` line (none means CPU: say renders will be slow). If Blender isn't found,
    say where to install it or set `BLENDER=/path/to/blender`. Delete `houses/_check` after.
 3. Offer to connect `houses/` to a private remote of their own, then ask for their first room

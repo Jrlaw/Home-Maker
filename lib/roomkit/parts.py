@@ -415,7 +415,7 @@ def wall_hung_sink(name, origin, rot_z, S):
     cut(body, bowl)
     body.modifiers.move(len(body.modifiers) - 1, 0)
     box(f"{name}_back", -w / 2, w / 2, -4.5, 0, rim, rim + 1.6, "ceramic", root, bevel=0.5)   # faucet deck
-    centerset_faucet(f"{name}_faucet", (0, -2.3), 0.0, rim + 1.6, dict(spout_h=3.8, reach=4.0))
+    centerset_faucet(f"{name}_faucet", (0, -3.3), 0.0, rim + 1.6, dict(spout_h=3.8, reach=4.0)).parent = root
     cylinder(f"{name}_tail", 0.75, 8, "chrome", (0, -d / 2, rim - t - 4), parent=root)
     cylinder(f"{name}_arm", 0.75, d / 2, "chrome", (0, -d / 4, rim - t - 9), rot=(math.pi / 2, 0, 0), parent=root)
     return root
@@ -462,6 +462,31 @@ def towel_bar(name, origin, rot_z, length=24, z=40, mat="chrome"):
     for sx in (-1, 1):
         box(f"{name}_post", sx * length / 2 - 0.6, sx * length / 2 + 0.6, -2.6, 0, z - 0.9, z + 0.9, mat, root, bevel=0.2)
     cylinder(f"{name}_bar", 0.35, length, mat, (0, -2.2, z), rot=(0, math.pi / 2, 0), parent=root)
+    return root
+
+
+def tub_shower_trim(name, origin, rot_z, valve_z=30, spout_z=19, head_z=80, T=None):
+    """Tub and shower trim on the plumbing wall: a round escutcheon with one lever, a tub spout
+    with a pull-up diverter below it, and a shower arm and head above. Local frame: wall at
+    y=0, room toward -y, centered on x=0. T: escutcheon (diameter), spout_len, spout_h, arm
+    (horizontal length), head (diameter), mat. Defaults are a typical single-handle set."""
+    T = T or {}
+    m = T.get("mat", "chrome")
+    root = empty(name, origin, rot_z)
+    er = T.get("escutcheon", 7.0) / 2
+    cylinder(f"{name}_escutcheon", er, 0.5, m, (0, -0.25, valve_z), rot=(math.pi / 2, 0, 0), segs=48, parent=root)
+    cylinder(f"{name}_hub", 0.8, 1.4, m, (0, -1.2, valve_z), rot=(math.pi / 2, 0, 0), parent=root)
+    box(f"{name}_lever", -0.4, 0.4, -2.3, -1.5, valve_z - 0.4, valve_z + 3.8, m, root, bevel=0.2)
+    sl, sh = T.get("spout_len", 5.4), T.get("spout_h", 2.4)
+    cylinder(f"{name}_spout_flange", 1.2, 0.5, m, (0, -0.25, spout_z), rot=(math.pi / 2, 0, 0), parent=root)
+    box(f"{name}_spout", -0.9, 0.9, -sl, -0.4, spout_z - sh / 2, spout_z + sh / 2, m, root, bevel=0.7)
+    cylinder(f"{name}_diverter", 0.3, 0.9, m, (0, -sl + 0.9, spout_z + sh / 2 + 0.4), parent=root)
+    arm = T.get("arm", 5.5)
+    cylinder(f"{name}_arm_flange", 1.2, 0.4, m, (0, -0.2, head_z), rot=(math.pi / 2, 0, 0), parent=root)
+    cylinder(f"{name}_arm", 0.42, arm, m, (0, -arm / 2, head_z), rot=(math.pi / 2, 0, 0), parent=root)
+    hr = T.get("head", 2.5) / 2
+    cylinder(f"{name}_head", hr, 1.6, m, (0, -arm - 0.4, head_z - 0.9), rot=(math.radians(60), 0, 0), segs=40,
+             parent=root)
     return root
 
 

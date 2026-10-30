@@ -88,9 +88,9 @@ After any change to `selections.md`, rebuild its web page:
 Never drop an option silently. Passed-on options stay in `selections.md` under "Considered"
 so the history is there.
 
-### Experts: trades reviews and the designer
+### Experts: trades reviews, the designer and the checker
 
-Two agents in `.claude/agents/` help here. They read and search, never edit; Claude decides
+Three agents in `.claude/agents/` help here. They read and search, never edit; Claude decides
 with the person what to adopt, logs it in `selections.md` (crediting the review), and models it.
 
 - **`designer`** sources real products from the person's style, wants and budget, checked
@@ -98,6 +98,10 @@ with the person what to adopt, logs it in `selections.md` (crediting the review)
 - **`trades`** reviews the room as one trade (lighting designer, electrician, cabinet designer,
   plumber, tile setter, general contractor, interior designer) and returns ranked fixes with
   plan coordinates, products, and what to measure first.
+- **`checker`** checks the model itself: what's missing for the room type (a tub with no valve
+  or shower head, no paper holder), what's built wrong (tile across a window, a fixture in a
+  wall or the door opening), and where `room.py` and `selections.md` disagree. It runs the
+  geometry check (`./render.sh --check`) and looks at the renders.
 
 Start them in the background, telling each the room folder, the trade or what to source, and
 what the person wants. **Offer one** (a one-line question, never run unasked) at these points:
@@ -110,12 +114,18 @@ what the person wants. **Offer one** (a one-line question, never run unasked) at
 3. When a selection is still open, or the person describes a style: the designer.
 4. Before stopping a session in which the design changed: one review by the trade most
    affected, unless it was already done for this version.
+5. Before the final renders and the bake (they take minutes): the checker. Also right after the
+   as-is model, together with offer 1.
 
 Note each review in the room README's "Current state" (trade, date, adopted or not), so it
 isn't offered twice for the same design.
 
 ## 4. Standard renders and the walkthrough
 
+- **Check first.** `./render.sh --check` builds the room and lists, in seconds, anything that
+  crosses a door or window, sits inside something else, or floats. Run it after every change
+  to `room.py` and fix what it finds before rendering; a finding that's deliberate gets a
+  comment in `room.py` saying so.
 - `renders/latest/day/` and `renders/latest/night/`: the standard views of the current
   design, refreshed whenever a choice changes. Render on the GPU (automatic) and give ETAs
   (for reference, about 35 s per 1600 px / 64-sample view on a mid-range GPU; time the first

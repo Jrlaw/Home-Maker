@@ -37,6 +37,7 @@ def arg(name, default):
 SAMPLES = int(arg("--samples", "128"))
 RES = int(arg("--res", "1600"))
 SAVE = "--save" in argv
+CHECK = "--check" in argv          # build the room, run roomkit.check and stop (no render)
 EXPORT = arg("--export", "")      # directory: write model.glb + scene.json + bundle.js, skip rendering
 # --bake: with --export, bake the Cycles lighting into one texture atlas (out/textures/bake.jpg)
 # so the walkthrough looks like the renders; PX is the atlas size (default 8192)
@@ -259,6 +260,7 @@ def wall_cutter(name, frame, x0, x1, z0, z1, thick):
     pts = [to_plan(frame, x0, -1), to_plan(frame, x1, -1), to_plan(frame, x1, thick + 2), to_plan(frame, x0, thick + 2)]
     ob = prism(name, pts, z0, z1, None)
     ob.data.materials.clear()
+    ob["opening"] = True      # roomkit.check: nothing else may cross a door or window
     return ob
 
 
@@ -395,6 +397,10 @@ def finish(cams, info=None, glass=(), plan_hide=("ceiling", "can_")):
     scene.render.image_settings.quality = 92
     os.makedirs(OUT, exist_ok=True)
 
+    if CHECK:
+        from . import check
+        check.run()
+        sys.exit(0)
     if EXPORT:
         export_web(EXPORT, info or {})
         sys.exit(0)

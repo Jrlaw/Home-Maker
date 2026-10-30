@@ -19,7 +19,7 @@ the selections page and the local server (`lib/serve.sh`, http://127.0.0.1:8000)
 1. Create the private houses repo: `git init houses`, copy `template/home.html` to
    `houses/index.html` and `template/catalog/` to `houses/catalog/`, and write
    `houses/.gitignore` with: `*/rooms/*/renders/*.jpg`, `*/rooms/*/web/bundle.js`,
-   `*/rooms/*/web/.bake/`, `*.blend`, `*.blend1`, `__pycache__/`.
+   `*/rooms/*/web/.bake/`, `*/rooms/*/check.json`, `*.blend`, `*.blend1`, `__pycache__/`.
 2. Check Blender: copy `template/room/` to `houses/_check/rooms/box`, run its
    `./render.sh --cams photo1 --samples 16 --res 800 --out /tmp/rendervation-check`, and report
    the `RENDER DEVICE` line (none means CPU: say renders will be slow). If Blender isn't found,
@@ -38,7 +38,8 @@ the selections page and the local server (`lib/serve.sh`, http://127.0.0.1:8000)
 - **status:** list the houses and rooms, each with its status line and next step.
 - **review `<room>` as `<trade>`** (or any plain request like "have a plumber look at the
   toilet"): run the `trades` agent. **find `<thing>`** ("find me a vanity, warm modern, under
-  $800"): run the `designer` agent.
+  $800"): run the `designer` agent. **check `<room>`** ("is anything missing?"): run the
+  `checker` agent.
 
 ## Rules that matter most
 
@@ -59,8 +60,11 @@ the selections page and the local server (`lib/serve.sh`, http://127.0.0.1:8000)
 - **Commits:** commit and push only when the user asks, with their own git identity. Room work
   and the catalog go in the `houses/` repo; toolkit changes (`lib/`, `template/`, docs) go in
   this repo, on a branch, as a PR.
-- **Experts:** the `trades` and `designer` agents (`.claude/agents/`) review the room or source
-  products, in the background. Offer one at the checkpoints in PROCESS.md ("Experts"), in one
+- **Check before trusting a render.** Run `./render.sh --check` (seconds) after any change to
+  `room.py` and fix what it prints before rendering or baking. Offer the `checker` agent after the
+  as-is model and before the final renders and bake.
+- **Experts:** the `trades`, `designer` and `checker` agents (`.claude/agents/`) review the room,
+  source products or check the model, in the background. Offer one at the checkpoints in PROCESS.md ("Experts"), in one
   line ("Want a lighting designer to look at this before we stop?"), and run it only on a yes
   or when asked. Pass the room folder, the trade, and what the person wants. Present what comes
   back briefly, adopt only what the person agrees to, and credit the review in `selections.md`.

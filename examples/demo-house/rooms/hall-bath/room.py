@@ -1,5 +1,5 @@
 """Hall bath (the repo's example): the room as it is in the photo (--design before), and the new
-design: a Glacier Bay Highgate vanity, a Gatco oval mirror, a Kohler Cimarron toilet, Bedrosians
+design: a Glacier Bay Shaila vanity, a Gatco oval mirror, a Kohler Cimarron toilet, Bedrosians
 Cloe tile (wainscot and tub walls) and a Merola Carrara hexagon floor. The tub stays.
 
 Built from layout.py (inches) with the shared parts in lib/roomkit. Run through ./render.sh;
@@ -26,10 +26,10 @@ from roomkit.core import (IN, arg, box, camera, casing_frame, cut, cylinder, dim
 from roomkit.materials import (PAINTS, basic_set, emission, image_box_material, principled,  # noqa: E402
                                wall_tile_material)
 from roomkit.parts import (alcove_tub, can_light, centerset_faucet, medicine_cabinet, oval_mirror,  # noqa: E402
-                           shaker_vanity, shower_curtain, six_panel_door, towel_bar,
+                           shaker_vanity, shower_curtain, six_panel_door, towel_bar, tub_shower_trim,
                            two_piece_toilet, wall_hung_sink, wall_plate)
 
-CAMS = arg("--cams", "photo1,vanity,plan").split(",")
+CAMS = arg("--cams", "photo1,vanity,tub,plan").split(",")
 DESIGN = arg("--design", "new")               # before: the room as it is in the photo
 NEW = DESIGN == "new"
 TILE_COLOR = arg("--tile-color", "cloegreen")  # chosen: Bedrosians Cloe Green (example decision)
@@ -127,20 +127,41 @@ TUB_H, TUB_TILE = 15.0, 84.0
 box("tile_tub_w", 0, TT, STUB_N, -TT, TUB_H, TUB_TILE, "tile_tub_y")
 box("tile_tub_n", 0, L.TUB_W, -TT, 0, TUB_H, TUB_TILE, "tile_tub_x")
 box("tile_tub_s", TT, L.TUB_W, STUB_N, STUB_N + TT, TUB_H, TUB_TILE, "tile_tub_x")
+# the tile stops at the window's casing and apron instead of running behind them
+for k, w in enumerate(L.WINDOWS):
+    trim = wall_cutter(f"cut_trim_window_{k}", WALLS[w["wall"]], w["at"] - 3.5, w["at"] + w["width"] + 3.5,
+                       w["sill"] - 4.25, w["sill"] + w["height"] + 3.5, T)
+    trim["opening"] = False
+    for t in ("tile_n", "tile_tub_n"):
+        cut(core.bpy.data.objects[t], trim)
 
 # ---------------------------------------------------------------- fixtures
 alcove_tub("tub", TT, L.TUB_W, STUB_N + TT, -TT, dict(height=TUB_H))
-shower_curtain("curtain", L.TUB_W - 1.0, STUB_N + TT + 0.5, STUB_N + 16, 20, 78)
-cylinder("curtain_rod", 0.5, L.TUB_L, "chrome", (L.TUB_W - 1.0, STUB_N / 2, 79), rot=(math.pi / 2, 0, 0))
-towel_bar("towel_bar", (L.TUB_W / 2 + TT, STUB_S - TT), 0.0, length=24, z=42)
+# new: the rod over the rim's inner edge so the curtain's hem hangs inside the tub
+CX = L.TUB_W - 3.5 if NEW else L.TUB_W - 1.0
+if NEW:   # bunched at the window end, clear of the faucet
+    shower_curtain("curtain", CX, -TT - 16, -TT - 0.5, L.CURTAIN_BOTTOM, 78)
+else:
+    shower_curtain("curtain", CX, STUB_N + TT + 0.5, STUB_N + 16, 20, 78)
+cylinder("curtain_rod", 0.5, L.TUB_L, "chrome", (CX, STUB_N / 2, 79), rot=(math.pi / 2, 0, 0))
+if NEW:
+    # tub and shower trim on the stub wall (the plumbing wall), facing the tub
+    tub_shower_trim("tub_trim", (L.TUB_W / 2, STUB_N + TT), math.pi, T=L.TUB_TRIM, **L.TUB_TRIM_Z)
+    towel_bar("towel_bar", (W - TT, L.BATH_TOWEL["y"]), -math.pi / 2, length=L.BATH_TOWEL["length"],
+              z=L.BATH_TOWEL["z"], mat="nickel")
+    hx = (TT + L.VANITY["depth"] + L.TUB_W) / 2 + 0.5        # stub end beside the vanity's front
+    towel_bar("hand_towel", (hx, STUB_S - TT), 0.0, length=L.HAND_TOWEL["length"], z=L.HAND_TOWEL["z"], mat="nickel")
+else:
+    towel_bar("towel_bar", (L.TUB_W / 2 + TT, STUB_S - TT), 0.0, length=24, z=42)
 # toilet paper holder on the east wall, beside the toilet
-box("tp_post", W - TT - 2.2, W - TT, -27, -25, 25, 27, "chrome", bevel=0.3)
-cylinder("tp_roll", 2.2, 4.3, "ceiling", (W - TT - 3.0, -24.0, 26), rot=(math.pi / 2, 0, 0))
+tp_y = L.TP_Y if NEW else -26
+box("tp_post", W - TT - 2.2, W - TT, tp_y - 1, tp_y + 1, 25, 27, "nickel" if NEW else "chrome", bevel=0.3)
+cylinder("tp_roll", 2.2, 4.3, "ceiling", (W - TT - 3.0, tp_y + 2.0, 26), rot=(math.pi / 2, 0, 0))
 if NEW:
     vy0 = -D + L.VANITY_S
     vy_c = vy0 + L.VANITY["width"] / 2
     shaker_vanity("vanity", (TT, vy0), math.pi / 2, L.VANITY)
-    centerset_faucet("faucet", (TT + 2.4, vy_c), math.pi / 2, L.VANITY["height"])
+    centerset_faucet("faucet", (TT + 2.4, vy_c), math.pi / 2, L.VANITY["height"], dict(mat="nickel"))
     oval_mirror("mirror", (TT, vy_c), math.pi / 2, L.MIRROR)
     two_piece_toilet("toilet", L.TOILET_X, -TT, -math.pi / 2, L.NEW_TOILET)
     wall_plate("outlet_vanity", TT, L.OUTLET_Y, 42, 1, "gfci", math.pi / 2, standoff=TT)
@@ -220,6 +241,7 @@ if NEW:
 # photo1: from the doorway, matched to intake/nps-before.jpg (web/before/photo1.jpg)
 camera("photo1", (32, -99, 52), (14.2, -64.1, 39), lens=12.5)   # heading 27 deg W of N, 12 down: fitted to the photo
 camera("vanity", (41, -91, 62), (0, -76, 42), lens=13, level=True)
+camera("tub", (52, -14, 64), (12, -58, 40), lens=13, level=True)      # the tub and its trim, from by the toilet
 camera("plan", (W / 2, -D / 2, 400), (W / 2, -D / 2, 0), ortho=max(W, D) + 40)
 
 # ---------------------------------------------------------------- render / export

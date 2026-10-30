@@ -13,8 +13,10 @@ Prices as seen on 2026-10-29.
 - Faucet: any 4" centerset in satin nickel, to match the vanity's knobs.
 - Switches: there's no wall inside on the door's latch side, so the lighting review puts the
   3-gang box (two dimmers and a fan timer) in the hall at the latch side, 48" up. Confirm.
-- Vanity vs. the door casing: the lighting review measured about 3/8" of overlap at the
-  vanity's south end. Tape the sink bay; notch the casing if it's tight.
+- Heat: no register or radiator is modeled. Find where the heat comes from today and add it.
+- Tub valve access: the old access panel behind the sink goes away with the vanity. The Delta
+  valve services from the front (the cartridge comes out through the escutcheon); keep a panel
+  only if the shutoffs are behind the wall.
 
 ---
 
@@ -52,16 +54,24 @@ Prices as seen on 2026-10-29.
 
 ## Vanity
 
-![Highgate vanity](intake/products/glacier-bay-highgate-30-pearl-gray.jpg)
+**Status:** chosen (2026-10-29, replacing the Highgate after the checker's review)
 
-**Status:** chosen
+- **Glacier Bay Shaila 30.5" vanity, Silverleaf, PPSOFSVL30.** About $293 (Home Depot, price to
+  confirm).
+  - Link: https://www.homedepot.com/p/205428762
+  - Specs: 30.5" W x 16.25" D x 35.06" H, white cultured-marble top with an integrated sink.
+    Modeled with the generic shaker vanity at those sizes.
+  - Why: the door swings in, hinged on the far jamb, and its latch edge sweeps 27-3/4" around
+    the hinge. An 18.75"-deep vanity stood 1.2" into the door opening and blocked the swing; at
+    16.25" its front is at 16-5/8", clear of the 18" jamb.
+  - Fit: the sink bay is 31-1/8" (FROM PHOTO), leaving about 1/4" at the stub wall.
 
-- **Glacier Bay Highgate 30" vanity, Pearl Gray, GB30P2-PG.** $241.29 on sale ($289.55), GoSource.
-  - Link: https://shop.gosource.us/products/highgate_p_gb30p2-pg
-  - Specs: 30.25" W x 18.75" D x 32.89" H, white cultured-marble top with an integrated sink,
-    two shaker doors, satin nickel knobs, 4" centerset faucet holes.
-  - Saved: `intake/products/glacier-bay-highgate-30-pearl-gray.jpg`, `-dims.jpg`
-  - Fit: the sink bay is 31-1/2" (FROM PHOTO).
+**Considered:**
+- Glacier Bay Highgate 30" Pearl Gray, GB30P2-PG ($241, GoSource): the first pick, and the one
+  in the demo video. At 18.75" deep it stands in the door opening (found by the `checker`).
+  Saved: `intake/products/glacier-bay-highgate-30-pearl-gray.jpg`, `-dims.jpg`.
+- Glacier Bay 24" Pearl Gray, GB24P2-PG (24.2" x 18.8"): pushed against the stub wall, its corner
+  still sits in the door's swing by about 1/4".
 
 ## Mirror
 
@@ -134,4 +144,32 @@ joists run (the cans may shift 3" to miss one).
 
 **Status:** existing
 
-- The 60" x 30" alcove tub stays, with a new cream curtain.
+- The 60" x 30" alcove tub stays, with a new cream curtain on the existing rod, moved in over
+  the rim's inner edge so the hem hangs inside the tub (the old one stopped 5" above the rim).
+
+## Tub and shower trim
+
+**Status:** chosen (2026-10-29, from the `checker` review: the tub had tile to 84" and no
+plumbing trim)
+
+- **Delta Foundations single-handle tub and shower set, B114900C-SS (stainless), valve
+  included.** About $119 (Home Depot).
+  - Link: https://www.homedepot.com/p/303669707
+  - Delta page: https://www.deltafaucet.com/bathroom/product/B114900C-SS.html
+  - Spec sheet: https://media.deltafaucet.com/SpecSheet/DSP-B-B112900C%20Rev%20C.pdf
+  - Specs: Monitor 14 pressure-balance valve, 7" escutcheon, pull-up diverter spout (5-3/8"),
+    5-1/2" shower arm, 2-1/2" 1.75 gpm head. The stainless finish reads as brushed nickel next
+    to the vanity knobs and the Kichler bar.
+  - Where: centered on the stub wall at the drain end. Valve at 30", spout at 19" (4" over the
+    rim), shower arm at 80".
+
+## Bath hardware
+
+**Status:** considering (placeholders in the model: any satin or brushed nickel)
+
+- **Towel bar, 18"**, on the east wall at 48", a step from the tub (the old 24" bar on the stub
+  wall would sit over the new, taller vanity).
+- **Hand towel bar, 8"**, on the stub wall's end beside the vanity, at 50".
+- **Toilet paper holder**, on the east wall 9" in front of the bowl, at 26".
+- **Door:** the existing 6-panel door stays, with a lever.
+- **Base:** white 4" painted base under the tile, as modeled.

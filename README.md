@@ -10,12 +10,13 @@ bookkeeping. Send it photos, measurements, product links and ideas, and it build
 Blender, renders options side by side, and records every choice. You don't need to run any of
 the scripts yourself.
 
-[![A real session: one photo of a dated bathroom, real products, renders and the walkthrough](docs/demo.gif)](docs/demo.mp4)
+[![How it goes: one photo of a dated bathroom, a few plain requests, real products, renders and the walkthrough](docs/demo.gif)](docs/demo.mp4)
 
-*A real Claude Code session, sped up ([full video](docs/demo.mp4)). Starting from one
-public-domain photo, Claude finds the products, models the room as it is and as redesigned,
-renders the options, and builds the website. The result is the example room in
-`examples/demo-house/rooms/hall-bath/`: open http://127.0.0.1:8000 and choose **Example**.*
+*How a room goes ([full video](docs/demo.mp4)). The terminal part is illustrated, cut down to
+the requests that matter: one public-domain photo, then plain asks for real products, a
+lighting review and a check. The renders and the website after it are the real output, the
+example room in `examples/demo-house/rooms/hall-bath/`: open http://127.0.0.1:8000 and choose
+**Example**.*
 
 ## Getting started
 
@@ -62,7 +63,7 @@ straight from the folder, but correcting dimensions needs the server.
 
 ## Experts on call
 
-Two helper agents ship with the project (`.claude/agents/`). Claude runs them in the
+Three helper agents ship with the project (`.claude/agents/`). Claude runs them in the
 background and comes back with what they found; they read and search, and never change the
 room themselves. You decide what to adopt, and Claude logs it in `selections.md` and models it.
 
@@ -74,6 +75,11 @@ room themselves. You decide what to adopt, and Claude logs it in `selections.md`
 - **Designer** (`designer`): finds real products that suit your style, wants and budget, and
   checks each one fits the space (width, door swings, clearances). Usually three picks: a best
   match, a budget pick and a splurge, each with a link, price and spec sheet.
+- **Checker** (`checker`): walks the model like a site lead before the client sees it. It
+  finds what's missing for the room type (a tub with no faucet or shower head, no paper
+  holder), what's built wrong (tile across a window, a vanity in the door opening, a fixture
+  inside a wall), and anything chosen in `selections.md` that isn't modeled. Claude also runs
+  its geometry check on its own after every change to the room.
 
 **How to call them:** just ask, in plain words.
 
@@ -83,12 +89,15 @@ room themselves. You decide what to adopt, and Claude logs it in `selections.md`
   models for placement and usability in where they're located."*
 - *"Get the designer to find a vanity: warm wood, modern, under $800."*
 - *"Ask a plumber whether the toilet can move 6 inches."*
+- *"Check the hall bath. Is anything missing?"* (On the example, the checker found the tub
+  had no faucet or shower head, the tile ran behind the window, and the vanity was deep
+  enough to block the door. All three are fixed now; see its `selections.md`.)
 
 **When Claude offers one:** at natural checkpoints, and you can say no. After the room as it
 is checks out against your photos (a contractor or designer, for what's worth changing); when
 a part of the design settles (the matching trade: cabinets → cabinet designer, lights →
-lighting designer); when a selection is still open (the designer); and once before a session
-stops, if the design changed.
+lighting designer); when a selection is still open (the designer); before the final renders
+and the walkthrough bake (the checker); and once before a session stops, if the design changed.
 
 In Claude Code, `/agents` lists them, and you can name one directly: *"use the trades agent as
 an electrician on the kitchen."*

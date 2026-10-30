@@ -121,9 +121,13 @@ For the curious:
 - `houses/<house>/rooms/<room>/`: one room. Photos and notes (`intake/`), every product and
   idea (`selections.md`), the model (`layout.py`, `room.py`), renders, and the walkthrough
   (`web/`).
-- `template/`: what a new room or house starts from.
-- `lib/`: shared by every room. `roomkit/` has the Blender building blocks, `web/` the
-  walkthrough viewer, `tools/` small helpers, and `render.sh` finds Blender and the GPU.
+- `houses/catalog/`: your own products and colors (a particular vanity, a tile color measured
+  from a product photo), shared by all your rooms.
+- `template/`: what a new room, house or catalog starts from.
+- `lib/`: shared by every room, and the same for everyone. `roomkit/` has the Blender building
+  blocks, `web/` the walkthrough viewer, `tools/` small helpers, and `render.sh` finds Blender
+  and the GPU. Nothing about your own rooms goes in here; improvements come back as PRs.
+- `examples/`: the example house, with its own `catalog/`.
 
 ## License
 

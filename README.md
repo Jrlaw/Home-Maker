@@ -123,3 +123,9 @@ For the curious:
 - `template/`: what a new room or house starts from.
 - `lib/`: shared by every room. `roomkit/` has the Blender building blocks, `web/` the
   walkthrough viewer, `tools/` small helpers, and `render.sh` finds Blender and the GPU.
+
+## License
+
+The toolkit (code and docs) is [MIT](LICENSE). Your `houses/` folder is yours and isn't part of
+it. In the example room, the before photo is public domain (NPS), and the product photos in
+`intake/products/` belong to their makers and are included for reference only.

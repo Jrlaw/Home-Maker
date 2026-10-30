@@ -8,3 +8,4 @@ __pycache__/
 # the example room: quick renders (kept sets in renders/latest and renders/options are committed)
 examples/*/rooms/*/renders/*.jpg
 examples/*/rooms/*/web/.bake/
+examples/*/rooms/*/check.json

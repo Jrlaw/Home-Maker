@@ -37,7 +37,7 @@ TILE_T = 0.375                # tile + mortar on the walls
 # wall: N, E, S or W. at: from the wall's left corner (as you face the wall from inside) to
 # the edge of the opening, not the trim. Windows: sill = floor to the bottom of the opening.
 WINDOWS = [
-    dict(wall="N", at=39, width=24, sill=52, height=38),     # FROM PHOTO: centered over the toilet
+    dict(wall="N", at=38, width=24, sill=52, height=38),     # FROM PHOTO: about centered over the toilet; at 38, not 39, so its casing clears the east wall
 ]
 DOORS = [
     dict(wall="S", at=20, width=28, height=80, door=True),   # FROM PHOTO: 18" off the west wall; swings in, hinged east
@@ -54,9 +54,10 @@ TOILET_X = dimension("toilet_x", 51, "photo", "west wall to the toilet's center,
 ACCESS_PANEL = dict(width=17, height=30, bottom=2)          # tub plumbing access in the stub wall
 
 # --- New design (sizes from the spec sheets) -------------------------------------------
-# Glacier Bay Highgate 30" vanity, Pearl Gray, GB30P2-PG: 30.25 W x 18.75 D x 32.89 H
-# (assembled), white cultured marble top with an integrated sink.
-VANITY = dict(width=30.25, depth=18.75, height=32.89, top_t=1.0, kick=3.5)
+# Glacier Bay Shaila 30.5" vanity, Silverleaf, PPSOFSVL30: 30.5 W x 16.25 D x 35.06 H, white
+# cultured marble top with an integrated sink. 16.25" deep so the door clears it (the 18.75"
+# Highgate stood 1.2" into the door opening; found by the checker, 2026-10-29).
+VANITY = dict(width=30.5, depth=16.25, height=35.06, top_t=1.0, kick=3.5)
 VANITY_S = dimension("vanity_from_south", 0.4, "design", "south wall to the vanity: the 31\" sink bay just fits it")
 # Gatco Designer 5079LG frameless beveled oval mirror, 24" W x 32" H
 MIRROR = dict(width=24, height=32, center=dimension("mirror_center", 58, "design", "floor to the mirror's center"))
@@ -74,3 +75,14 @@ NEW_CANS = [(15, -42), (48, -30), (42, -74)]                 # DESIGN: tub, toil
 VANITY_LIGHT = dict(width=24, plate_h=4.75, ext=8, bottom=77)   # DESIGN: 3" above the mirror
 FAN = (15, -12)               # DESIGN: Panasonic WhisperCeiling DC FV-0511VQ1 over the tub (80 CFM)
 OUTLET_Y = -93.5              # DESIGN: GFCI at the backsplash's south end, the far side from the tub
+
+# --- Tub and shower, towels, paper holder (from the checker's review, 2026-10-29) ----------
+# Delta Foundations B114900C-SS tub and shower set, valve included (spec sheet: 7" escutcheon,
+# 5-3/8" spout, 5-1/2" shower arm, 2-1/2" head), on the stub wall at the tub's drain end
+TUB_TRIM = dict(escutcheon=7.0, spout_len=5.375, spout_h=2.4, arm=5.5, head=2.5, mat="nickel")
+TUB_TRIM_Z = dict(valve_z=30, spout_z=19, head_z=80)       # DESIGN: valve 30", spout 4" over the rim, head 80"
+CURTAIN_BOTTOM = 16            # DESIGN: hem 1" over the rim, inside its inner edge (was 20: 5" up, water got out)
+TP_Y = -40                     # DESIGN: paper holder on the east wall, 9" in front of the bowl, 26" up
+BATH_TOWEL = dict(y=-52, z=48, length=18)   # DESIGN: towel bar on the east wall, a step from the tub
+HAND_TOWEL = dict(z=50, length=8)            # DESIGN: small bar on the stub wall's end, beside the vanity
+

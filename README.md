@@ -1,4 +1,4 @@
-# Home renders
+# Home Maker
 
 Photoreal 3D models of rooms, before and after a remodel, with a walkthrough you can open in the
 browser. One room at a time, in any house.
@@ -20,7 +20,8 @@ renders the options, and builds the website. The result is the example room in
 1. Install [Claude Code](https://claude.com/claude-code) and
    [Blender](https://www.blender.org/download/) (4.2 or newer, in its default location).
    You also need Python 3 and Git. On Windows, use WSL or Git Bash.
-2. Clone this repo, open a terminal in it, and run `claude`.
+2. Clone this repo (`git clone https://github.com/Jrlaw/Home-Maker.git`), open a terminal in
+   the `Home-Maker` folder, and run `claude`.
 3. Say **"set me up"**. Claude checks that Blender renders (and on which GPU), then creates a
    private `houses/` folder for your rooms. It's its own repo, so your photos and renders never
    go into this shared one.

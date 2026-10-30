@@ -17,7 +17,7 @@ the selections page and the local server (`lib/serve.sh`, http://127.0.0.1:8000)
 
 **First run ("set me up", or `houses/` doesn't exist):**
 1. Check Blender: copy `template/room/` to a temp folder inside `houses/_check/rooms/box`, run its
-   `./render.sh --cams photo1 --samples 16 --res 800 --out /tmp/home-render-check`, and report
+   `./render.sh --cams photo1 --samples 16 --res 800 --out /tmp/home-maker-check`, and report
    the `RENDER DEVICE` line (none means CPU: say renders will be slow). If Blender isn't found,
    say where to install it or set `BLENDER=/path/to/blender`. Delete `houses/_check` after.
 2. Create the private houses repo: `git init houses`, copy `template/home.html` to
